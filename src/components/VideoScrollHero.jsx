@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollStack, ScrollStackItem } from "./UI/ScrollStack";
 import Aurora from "./UI/Aurora";
+import TextType from "./UI/TextType";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,7 +61,7 @@ export default function VideoScrollHero() {
   }, []);
 
   return (
-    <div className="relative w-full min-h-[350vh] overflow-hidden"> 
+    <div className="relative w-full min-h-[350vh] overflow-hidden">
       {/* Aurora background */}
       <div className="fixed inset-0 -z-10">
         <Aurora
@@ -81,15 +82,24 @@ export default function VideoScrollHero() {
           style={{ perspective: "2000px", transformStyle: "preserve-3d" }}
         >
           <div className="mb-6 text-blue-300 text-2xl font-mono tracking-wider drop-shadow-2xl animate-pulse">
-            {"<Developer />"}
+            {"<Rodney Charles O. Austria />"}
           </div>
-          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black mb-8 leading-[0.9] drop-shadow-2xl tracking-tight">
-            Full Stack
-            <br />
-            <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent animate-gradient-x">
-              Developer
-            </span>
+
+          {/* Typing Effect */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold mb-10 leading-[1.1] drop-shadow-2xl tracking-tight">
+            <TextType
+              text={[
+                "Full Stack Developer",
+                "Creative Problem Solver",
+                "Digital Experience Engineer",
+              ]}
+              typingSpeed={70}
+              pauseDuration={1500}
+              showCursor={true}
+              cursorCharacter="|"
+            />
           </h1>
+
           <p className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide">
             Building award-winning digital experiences
           </p>
@@ -132,7 +142,7 @@ export default function VideoScrollHero() {
            {/* Card 4 */}
           <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Let’s Collaborate
+              Let’s Collaborate 2 
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
               Open to freelance, remote opportunities, and collaborations.
@@ -141,7 +151,7 @@ export default function VideoScrollHero() {
            {/* Card 5 */}
           <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Let’s Collaborate
+              Let’s Collaborate 3
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
               Open to freelance, remote opportunities, and collaborations.
