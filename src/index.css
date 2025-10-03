@@ -12,12 +12,22 @@
 
 html {
   scroll-behavior: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* Completely hide scrollbar but keep scrolling (global) */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 /* Enable 3D transforms */
@@ -27,7 +37,7 @@ div {
   transform-style: preserve-3d;
 }
 
-/* Smooth scrollbar */
+/* --- OPTIONAL: custom scrollbar style if you re-enable it --- */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -42,4 +52,13 @@ div {
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-blue-700;
+}
+
+/* Utility class: hide scrollbar on specific containers */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
 }

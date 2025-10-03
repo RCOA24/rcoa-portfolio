@@ -1,15 +1,16 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 import { ScrollStack, ScrollStackItem } from "./UI/ScrollStack";
-import Aurora from "./UI/Aurora";
+import Squares from "./UI/Squares";
 import TextType from "./UI/TextType";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function VideoScrollHero() {
   const headerRef = useRef(null);
-  const auroraRef = useRef(null);
+  const awardRef = useRef(null);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -17,28 +18,37 @@ export default function VideoScrollHero() {
     // Fade + move Hero as you scroll down
     gsap.to(header, {
       opacity: 0,
-      y: -200,
+      y: -100,
       scrollTrigger: {
         trigger: header,
         start: "top top",
-        end: "bottom top+=200",
-        scrub: true,
+        end: "bottom top+=300",
+        scrub: 1,
       },
     });
 
-    // Animate Aurora speed on scroll
-    if (auroraRef.current) {
-      gsap.to(auroraRef.current, {
-        "--speed": 1.5,
-        ease: "power1.inOut",
-        scrollTrigger: {
-          trigger: header,
-          start: "top top",
-          end: "bottom+=300% top",
-          scrub: true,
-        },
-      });
-    }
+    // --- Award-winning paragraph animation (letter-by-letter) ---
+    const splitAward = new SplitType(awardRef.current, { types: "chars" });
+
+    splitAward.chars.forEach((char) => char.classList.add("inline-block"));
+
+    // Animate letters in
+    gsap.from(splitAward.chars, {
+      opacity: 0,
+      y: 20,
+      stagger: 0.05,
+      duration: 0.8,
+      ease: "power3.out",
+      onComplete: () => {
+        // After animation, glow gold once
+        gsap.to(splitAward.chars, {
+          color: "#FFD700",
+          textShadow: "0 0 12px #FFD700, 0 0 24px #FFD700",
+          duration: 1,
+          ease: "power2.out",
+        });
+      },
+    });
 
     // ScrollStack items animation
     gsap.utils.toArray(".scroll-card").forEach((item) => {
@@ -53,7 +63,7 @@ export default function VideoScrollHero() {
           scrollTrigger: {
             trigger: item,
             start: "top 80%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none",
           },
         }
       );
@@ -61,16 +71,15 @@ export default function VideoScrollHero() {
   }, []);
 
   return (
-    <div className="relative w-full min-h-[350vh] overflow-hidden">
+    <div className="relative w-full h-full overflow-x-hidden hide-scrollbar">
       {/* Aurora background */}
       <div className="fixed inset-0 -z-10">
-        <Aurora
-          ref={auroraRef}
-          colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
-          blend={0.5}
-          amplitude={1.0}
-          speed={0.3}
-          className="w-full h-full object-cover"
+        <Squares
+          speed={0.5}
+          squareSize={100}
+          direction="diagonal"
+          borderColor="#403c49ff"
+          hoverFillColor="#444444"
         />
       </div>
 
@@ -81,26 +90,32 @@ export default function VideoScrollHero() {
           className="text-center text-white px-6 max-w-6xl"
           style={{ perspective: "2000px", transformStyle: "preserve-3d" }}
         >
-          <div className="mb-6 text-blue-300 text-2xl font-mono tracking-wider drop-shadow-2xl animate-pulse">
-            {"<Rodney Charles O. Austria />"}
+          <div className="mb-8 flex items-center justify-center gap-3">
+            <span className="relative flex h-4 w-4">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+            </span>
+
+            <span className="px-4 py-2 rounded-full bg-white/10 border border-white/20 text-blue-300 text-lg sm:text-xl md:text-2xl font-mono tracking-wide drop-shadow-lg backdrop-blur-md">
+              {"<Rodney Charles O. Austria />"}
+            </span>
           </div>
 
-          {/* Typing Effect */}
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold mb-10 leading-[1.1] drop-shadow-2xl tracking-tight">
             <TextType
-              text={[
-                "Full Stack Developer",
-                "Creative Problem Solver",
-                "Digital Experience Engineer",
-              ]}
+              text={["Full Stack Developer"]}
               typingSpeed={70}
               pauseDuration={1500}
               showCursor={true}
               cursorCharacter="|"
+              startOnVisible={true}
             />
           </h1>
 
-          <p className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide">
+          <p
+            ref={awardRef}
+            className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide"
+          >
             Building award-winning digital experiences
           </p>
         </div>
@@ -115,8 +130,7 @@ export default function VideoScrollHero() {
               Digital Creator
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              I design and build modern web apps with smooth animations,
-              beautiful UI, and scalable backends.
+              I design and build modern web apps with smooth animations, beautiful UI, and scalable backends.
             </p>
           </ScrollStackItem>
 
@@ -134,24 +148,6 @@ export default function VideoScrollHero() {
           <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
               Let’s Collaborate
-            </h2>
-            <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              Open to freelance, remote opportunities, and collaborations.
-            </p>
-          </ScrollStackItem>
-           {/* Card 4 */}
-          <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Let’s Collaborate 2 
-            </h2>
-            <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              Open to freelance, remote opportunities, and collaborations.
-            </p>
-          </ScrollStackItem>
-           {/* Card 5 */}
-          <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Let’s Collaborate 3
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
               Open to freelance, remote opportunities, and collaborations.
