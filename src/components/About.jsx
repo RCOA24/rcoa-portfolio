@@ -36,23 +36,23 @@ const About = () => {
         },
       })
 
-      const flameBg = document.createElement("span")
-      flameBg.style.position = "absolute"
-      flameBg.style.top = "50%"
-      flameBg.style.left = "0"
-      flameBg.style.width = "100%"
-      flameBg.style.height = "100%"
-      flameBg.style.transform = "translateY(-50%)"
-      flameBg.style.background =
-        "linear-gradient(180deg, rgba(255,69,0,0.15) 0%, rgba(255,140,0,0.1) 50%, transparent 100%)"
-      flameBg.style.filter = "blur(15px)"
-      flameBg.style.zIndex = "-1"
-      flameBg.style.borderRadius = "0.2em"
+      const goldBg = document.createElement("span")
+      goldBg.style.position = "absolute"
+      goldBg.style.top = "50%"
+      goldBg.style.left = "0"
+      goldBg.style.width = "100%"
+      goldBg.style.height = "100%"
+      goldBg.style.transform = "translateY(-50%)"
+      goldBg.style.background =
+        "linear-gradient(180deg, rgba(255,215,0,0.15) 0%, rgba(255,223,0,0.1) 50%, transparent 100%)"
+      goldBg.style.filter = "blur(15px)"
+      goldBg.style.zIndex = "-1"
+      goldBg.style.borderRadius = "0.2em"
       inspireWord.style.position = "relative"
-      inspireWord.appendChild(flameBg)
+      inspireWord.appendChild(goldBg)
 
       gsap.fromTo(
-        flameBg,
+        goldBg,
         { opacity: 0.6, scale: 0.95 },
         {
           opacity: 1,
@@ -69,8 +69,8 @@ const About = () => {
 
       splitInspire.chars.forEach((char, i) => {
         gsap.to(char, {
-          color: "#FF4500",
-          textShadow: "0 0 5px #FF6347, 0 0 10px #FF4500, 0 0 15px #FFA500",
+          color: "#FFD700",
+          textShadow: "0 0 8px #FFD700, 0 0 16px #FFA500, 0 0 24px #FFD700",
           y: -2,
           scale: 1.03,
           duration: 0.3,
@@ -135,7 +135,6 @@ const About = () => {
         },
       })
 
-      // 🧭 Faster Resume button animation
       gsap.from(buttonRef.current, {
         opacity: 0,
         x: -15,

@@ -237,36 +237,36 @@ const Projects = () => {
   }, [activeProject])
 
   return (
-    <section id="projects" ref={sectionRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-24">
+    <section id="projects" ref={sectionRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden py-12 md:py-24">
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black"></div>
 
-      <div className="relative z-10 text-center mb-12 px-6">
-        <h2 ref={titleRef} className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+      <div className="relative z-10 text-center mb-8 md:mb-12 px-6">
+        <h2 ref={titleRef} className="text-4xl md:text-7xl font-extrabold bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
           Award-Winning Projects
         </h2>
-        <p ref={subtitleRef} className="mt-6 text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
+        <p ref={subtitleRef} className="mt-4 md:mt-6 text-slate-400 text-base md:text-xl max-w-2xl mx-auto font-light">
           Blending design, motion, and engineering to craft immersive digital experiences that inspire and perform.
         </p>
       </div>
 
       {/* Horizontal Carousel */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6 touch-pan-y">
         <div className="relative">
           {/* Carousel Container */}
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth select-none"
+            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth select-none touch-pan-x"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {projects.map((project, i) => (
               <div
                 key={project.name}
-                className="flex-shrink-0 w-full snap-center px-4"
+                className="flex-shrink-0 w-full snap-center px-2 md:px-4"
               >
-                <div className="group cursor-pointer rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl overflow-hidden hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl">
+                <div className="group cursor-pointer rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl overflow-hidden hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl">
                   <div className="grid md:grid-cols-2 gap-0">
                     {/* Project Visual */}
-                    <div className={`relative overflow-hidden bg-gradient-to-br ${project.gradient} h-96 md:h-full`}>
+                    <div className={`relative overflow-hidden bg-gradient-to-br ${project.gradient} h-64 md:h-96`}>
                       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white_0%,transparent_60%)]"></div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                       
@@ -278,45 +278,45 @@ const Projects = () => {
                       
                       {/* Project Number */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-white/20 text-9xl font-black leading-none group-hover:text-white/30 transition-colors duration-500">
+                        <div className="text-white/20 text-7xl md:text-9xl font-black leading-none group-hover:text-white/30 transition-colors duration-500">
                           {String(i + 1).padStart(2, "0")}
                         </div>
                       </div>
 
                       {/* Category Badge */}
-                      <div className="absolute top-6 left-6">
-                        <span className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
+                      <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                        <span className="px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
                           {project.category}
                         </span>
                       </div>
                     </div>
 
                     {/* Project Info */}
-                    <div className="p-10 flex flex-col justify-center">
-                      <h3 className="text-4xl md:text-5xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-500 mb-4">
+                    <div className="p-6 md:p-10 flex flex-col justify-center">
+                      <h3 className="text-2xl md:text-5xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-500 mb-3 md:mb-4">
                         {project.name}
                       </h3>
                       
-                      <p className="text-slate-400 text-base leading-relaxed mb-6">{project.description}</p>
+                      <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-4 md:mb-6">{project.description}</p>
 
                       {/* Tech Stack */}
-                      <div className="flex flex-wrap gap-2 mb-6">
+                      <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                         {project.tech.map((tech) => (
-                          <span key={tech} className="px-3 py-1.5 rounded-lg bg-slate-800/60 text-slate-300 text-xs font-medium border border-slate-700/50">
+                          <span key={tech} className="px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg bg-slate-800/60 text-slate-300 text-xs font-medium border border-slate-700/50">
                             {tech}
                           </span>
                         ))}
                       </div>
 
                       {/* Metrics & CTA */}
-                      <div className="flex items-center gap-4 pt-4 border-t border-slate-800/50">
+                      <div className="flex items-center gap-3 md:gap-4 pt-3 md:pt-4 border-t border-slate-800/50">
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                          <span className="text-green-400 text-sm font-semibold">{project.metrics}</span>
+                          <span className="text-green-400 text-xs md:text-sm font-semibold">{project.metrics}</span>
                         </div>
                         <button
                           onClick={() => setActiveProject(project)}
-                          className="ml-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600/80 to-purple-600/80 hover:from-blue-500 hover:to-purple-500 text-white text-sm font-semibold shadow-lg group-hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
+                          className="ml-auto px-4 py-2 md:px-6 md:py-2.5 rounded-xl bg-gradient-to-r from-yellow-500/80 to-amber-600/80 hover:from-yellow-400 hover:to-amber-500 text-white text-xs md:text-sm font-semibold shadow-lg group-hover:shadow-yellow-500/30 transition-all duration-300 hover:scale-105"
                         >
                           View Details
                         </button>
@@ -331,32 +331,32 @@ const Projects = () => {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-10"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-10"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
 
         {/* Dot Indicators */}
-        <div className="flex items-center justify-center gap-2 mt-8">
+        <div className="flex items-center justify-center gap-2 mt-6 md:mt-8">
           {projects.map((_, i) => (
             <button
               key={i}
               onClick={() => goToSlide(i)}
               className={`transition-all duration-300 rounded-full ${
                 i === currentIndex
-                  ? "w-8 h-2 bg-gradient-to-r from-indigo-500 to-purple-500"
-                  : "w-2 h-2 bg-slate-700 hover:bg-slate-600"
+                  ? "w-6 h-1.5 md:w-8 md:h-2 bg-gradient-to-r from-yellow-400 to-amber-500"
+                  : "w-1.5 h-1.5 md:w-2 md:h-2 bg-slate-700 hover:bg-slate-600"
               }`}
             />
           ))}
@@ -367,7 +367,7 @@ const Projects = () => {
       {activeProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={closeModal}>
           <div ref={modalRef} className="relative max-w-4xl w-full mx-6 rounded-3xl border border-slate-700 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 p-8 text-center text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">{activeProject.name}</h3>
+            <h3 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">{activeProject.name}</h3>
 
             {/* Gallery */}
             <div
@@ -400,7 +400,7 @@ const Projects = () => {
               </div>
             </div>
 
-            <button onClick={() => window.open(activeProject.link, "_blank")} className="mt-4 px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 font-semibold shadow-lg hover:scale-105 transition-transform">
+            <button onClick={() => window.open(activeProject.link, "_blank")} className="mt-4 px-8 py-3.5 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 font-semibold shadow-lg hover:scale-105 transition-transform">
               View Live Demo 🚀
             </button>
 
