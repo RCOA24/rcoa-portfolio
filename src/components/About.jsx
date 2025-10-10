@@ -11,15 +11,14 @@ const About = () => {
   const subtitleRef = useRef(null)
   const contentRef = useRef(null)
   const imageRef = useRef(null)
+  const buttonRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // --- Split title ---
       const splitTitle = new SplitType(titleRef.current, { types: "words" })
       const inspireWord = splitTitle.words.find(w => w.textContent.toLowerCase().includes("inspire"))
       const splitInspire = new SplitType(inspireWord, { types: "chars" })
 
-      // Animate all words
       gsap.from(splitTitle.words, {
         opacity: 0,
         y: 100,
@@ -37,7 +36,6 @@ const About = () => {
         },
       })
 
-      // Flame background behind "Inspire"
       const flameBg = document.createElement("span")
       flameBg.style.position = "absolute"
       flameBg.style.top = "50%"
@@ -45,14 +43,14 @@ const About = () => {
       flameBg.style.width = "100%"
       flameBg.style.height = "100%"
       flameBg.style.transform = "translateY(-50%)"
-      flameBg.style.background = "linear-gradient(180deg, rgba(255,69,0,0.15) 0%, rgba(255,140,0,0.1) 50%, transparent 100%)"
+      flameBg.style.background =
+        "linear-gradient(180deg, rgba(255,69,0,0.15) 0%, rgba(255,140,0,0.1) 50%, transparent 100%)"
       flameBg.style.filter = "blur(15px)"
       flameBg.style.zIndex = "-1"
       flameBg.style.borderRadius = "0.2em"
       inspireWord.style.position = "relative"
       inspireWord.appendChild(flameBg)
 
-      // Subtle flame flicker (once)
       gsap.fromTo(
         flameBg,
         { opacity: 0.6, scale: 0.95 },
@@ -69,7 +67,6 @@ const About = () => {
         }
       )
 
-      // Animate each letter flicker once
       splitInspire.chars.forEach((char, i) => {
         gsap.to(char, {
           color: "#FF4500",
@@ -87,48 +84,10 @@ const About = () => {
         })
       })
 
-      // Floating sparks
-      const sparks = []
-      const numSparks = 8
-      for (let i = 0; i < numSparks; i++) {
-        const spark = document.createElement("span")
-        spark.className = "spark"
-        spark.style.position = "absolute"
-        spark.style.width = `${2 + Math.random() * 3}px`
-        spark.style.height = spark.style.width
-        spark.style.background = `rgba(255,${100 + Math.random() * 155},0,${0.5 + Math.random() * 0.5})`
-        spark.style.borderRadius = "50%"
-        spark.style.top = `${50 + Math.random() * 20 - 10}%`
-        spark.style.left = `${Math.random() * 100}%`
-        spark.style.pointerEvents = "none"
-        spark.style.zIndex = "-1"
-        inspireWord.appendChild(spark)
-        sparks.push(spark)
-
-        gsap.fromTo(
-          spark,
-          { y: 10, opacity: 1, scale: 0.5 },
-          {
-            y: -20 - Math.random() * 20,
-            opacity: 0,
-            scale: 0.8 + Math.random() * 0.4,
-            duration: 1 + Math.random() * 0.5,
-            delay: i * 0.08,
-            ease: "power1.out",
-            scrollTrigger: {
-              trigger: inspireWord,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        )
-      }
-
-      // Subtitle fade
       gsap.from(subtitleRef.current, {
         opacity: 0,
         y: 30,
-        duration: 1.2,
+        duration: 1,
         ease: "power2.out",
         scrollTrigger: {
           trigger: subtitleRef.current,
@@ -137,14 +96,13 @@ const About = () => {
         },
       })
 
-      // Content paragraphs
       const paragraphs = contentRef.current.querySelectorAll("p")
       paragraphs.forEach((p, i) => {
         gsap.from(p, {
           opacity: 0,
           y: 50,
-          duration: 1,
-          delay: i * 0.15,
+          duration: 0.8,
+          delay: i * 0.1,
           ease: "power2.out",
           scrollTrigger: {
             trigger: p,
@@ -154,7 +112,6 @@ const About = () => {
         })
       })
 
-      // Image parallax
       gsap.to(imageRef.current, {
         y: -50,
         scale: 1.05,
@@ -162,14 +119,14 @@ const About = () => {
           trigger: imageRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1.5,
+          scrub: 1.2,
         },
       })
 
       gsap.from(imageRef.current, {
         opacity: 0,
         scale: 0.9,
-        duration: 1.4,
+        duration: 1,
         ease: "power2.out",
         scrollTrigger: {
           trigger: imageRef.current,
@@ -177,10 +134,27 @@ const About = () => {
           once: true,
         },
       })
+
+      // 🧭 Faster Resume button animation
+      gsap.from(buttonRef.current, {
+        opacity: 0,
+        x: -15,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: buttonRef.current,
+          start: "top 90%",
+          once: true,
+        },
+      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
+
+  const handleResumeClick = () => {
+    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2025.pdf`, "_blank")
+  }
 
   return (
     <section
@@ -211,39 +185,51 @@ const About = () => {
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-start">
-          <div ref={contentRef} className="space-y-8 text-xl md:text-2xl font-light leading-relaxed text-zinc-300">
+          <div
+            ref={contentRef}
+            className="space-y-8 text-xl md:text-2xl font-light leading-relaxed text-zinc-300"
+          >
             <p>
-              I'm a full-stack developer who believes in the power of simplicity. Every line of code, every pixel placed with intention.
+              I'm a full-stack developer who believes in the power of simplicity. Every line of
+              code, every pixel placed with intention.
             </p>
             <p>
-              Specializing in <span className="text-white font-medium">React</span>, <span className="text-white font-medium">Node.js</span>, and <span className="text-white font-medium">modern design systems</span> — I build products that people love to use.
+              Specializing in <span className="text-white font-medium">React</span>,{" "}
+              <span className="text-white font-medium">Node.js</span>, and{" "}
+              <span className="text-white font-medium">modern design systems</span> — I build
+              products that people love to use.
             </p>
-            <p className="text-3xl md:text-4xl font-normal text-white leading-tight">
-              Less but better.
-            </p>
+
+            {/* Less but better + Resume Button */}
+            <div className="mt-12">
+              <p className="text-3xl md:text-4xl font-normal text-white leading-tight mb-4">
+                Less but better.
+              </p>
+              <button
+                ref={buttonRef}
+                onClick={handleResumeClick}
+                className="group overflow-hidden rounded-full border border-zinc-700 bg-zinc-900/70 px-6 py-2 text-base md:text-lg font-medium text-white shadow-lg backdrop-blur transition duration-300 hover:bg-zinc-800"
+              >
+                <span className="relative z-10">View Resume</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+              </button>
+            </div>
           </div>
 
           {/* Image */}
           <div ref={imageRef} className="relative">
             <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-800/50 shadow-2xl shadow-black/50">
-              
-              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-zinc-700/10 to-transparent"></div>
-              
-              {/* Your picture */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <img
-                  src="/images/Profile.jpg" // <-- replace with your actual file name
+                  src="/images/Profile.jpg"
                   alt="Rodney Austria"
                   className="w-full h-full object-cover rounded-3xl"
                 />
               </div>
-
-              {/* Subtle grid overlay */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:32px_32px]"></div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
