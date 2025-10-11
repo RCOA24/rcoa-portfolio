@@ -273,48 +273,46 @@ const Projects = () => {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
-  // Simplified gallery touch handling for modal
+  // Gallery touch handling for modal - simplified for mobile
   useEffect(() => {
     if (!galleryRef.current) return
     const gallery = galleryRef.current
-    let isDown = false
+    
+    // Only add mouse drag for desktop, let mobile use native scroll
+    let isMouseDown = false
     let startX, scrollLeft
 
-    const startDragging = (x) => {
-      isDown = true
-      startX = x - gallery.offsetLeft
+    const handleMouseDown = (e) => {
+      isMouseDown = true
+      gallery.style.cursor = "grabbing"
+      startX = e.pageX - gallery.offsetLeft
       scrollLeft = gallery.scrollLeft
     }
 
-    const stopDragging = () => (isDown = false)
-    const move = (x, e) => {
-      if (!isDown) return
+    const handleMouseMove = (e) => {
+      if (!isMouseDown) return
       e.preventDefault()
+      const x = e.pageX - gallery.offsetLeft
       const walk = (x - startX) * 1.5
       gallery.scrollLeft = scrollLeft - walk
     }
 
-    const handleMouseDown = (e) => startDragging(e.pageX)
-    const handleMouseMove = (e) => move(e.pageX, e)
-    const handleTouchStart = (e) => startDragging(e.touches[0].pageX)
-    const handleTouchMove = (e) => move(e.touches[0].pageX, e)
+    const handleMouseUp = () => {
+      isMouseDown = false
+      gallery.style.cursor = "grab"
+    }
 
+    // Only add mouse events for desktop dragging
     gallery.addEventListener("mousedown", handleMouseDown)
-    gallery.addEventListener("mouseleave", stopDragging)
-    gallery.addEventListener("mouseup", stopDragging)
+    gallery.addEventListener("mouseleave", handleMouseUp)
+    gallery.addEventListener("mouseup", handleMouseUp)
     gallery.addEventListener("mousemove", handleMouseMove)
-    gallery.addEventListener("touchstart", handleTouchStart, { passive: true })
-    gallery.addEventListener("touchend", stopDragging, { passive: true })
-    gallery.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     return () => {
       gallery.removeEventListener("mousedown", handleMouseDown)
-      gallery.removeEventListener("mouseleave", stopDragging)
-      gallery.removeEventListener("mouseup", stopDragging)
+      gallery.removeEventListener("mouseleave", handleMouseUp)
+      gallery.removeEventListener("mouseup", handleMouseUp)
       gallery.removeEventListener("mousemove", handleMouseMove)
-      gallery.removeEventListener("touchstart", handleTouchStart)
-      gallery.removeEventListener("touchend", stopDragging)
-      gallery.removeEventListener("touchmove", handleTouchMove)
     }
   }, [activeProject])
 
