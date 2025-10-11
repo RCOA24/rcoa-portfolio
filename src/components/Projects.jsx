@@ -122,30 +122,41 @@ const Projects = () => {
     let isDown = false
     let startX, startY, scrollLeft
     let isHorizontalScroll = null
+    let hasMoved = false
 
     const startDragging = (x, y) => {
       isDown = true
       isHorizontalScroll = null
-      carousel.style.scrollBehavior = "auto"
-      startX = x - carousel.offsetLeft
+      hasMoved = false
+      startX = x
       startY = y
       scrollLeft = carousel.scrollLeft
     }
 
     const stopDragging = () => {
+      if (isDown && isHorizontalScroll && hasMoved) {
+        carousel.style.scrollBehavior = "smooth"
+        const slideWidth = carousel.offsetWidth
+        const newIndex = Math.round(carousel.scrollLeft / slideWidth)
+        setCurrentIndex(newIndex)
+      }
       isDown = false
       isHorizontalScroll = null
-      carousel.style.scrollBehavior = "smooth"
-      const slideWidth = carousel.offsetWidth
-      const newIndex = Math.round(carousel.scrollLeft / slideWidth)
-      setCurrentIndex(newIndex)
+      hasMoved = false
     }
 
-    const move = (x, e) => {
+    const handleMouseMove = (e) => {
       if (!isDown) return
-      e.preventDefault()
-      const walk = (x - startX) * 2
-      carousel.scrollLeft = scrollLeft - walk
+      const x = e.pageX
+      const deltaX = Math.abs(x - startX)
+      
+      if (deltaX > 5) {
+        hasMoved = true
+        e.preventDefault()
+        carousel.style.scrollBehavior = "auto"
+        const walk = (startX - x) * 1.5
+        carousel.scrollLeft = scrollLeft + walk
+      }
     }
 
     const handleTouchStart = (e) => {
@@ -160,35 +171,39 @@ const Projects = () => {
       const deltaX = Math.abs(x - startX)
       const deltaY = Math.abs(y - startY)
       
-      // Determine scroll direction on first move
-      if (isHorizontalScroll === null && (deltaX > 3 || deltaY > 3)) {
-        isHorizontalScroll = deltaX > deltaY
+      // Determine scroll direction only after threshold movement
+      if (isHorizontalScroll === null && (deltaX > 10 || deltaY > 10)) {
+        isHorizontalScroll = deltaX > deltaY * 1.5 // More strict horizontal detection
       }
       
       // Only handle horizontal scrolling
       if (isHorizontalScroll) {
+        hasMoved = true
         e.preventDefault()
-        const walk = (x - startX) * 2
-        carousel.scrollLeft = scrollLeft - walk
+        carousel.style.scrollBehavior = "auto"
+        const walk = (startX - x) * 1.5
+        carousel.scrollLeft = scrollLeft + walk
       } else if (isHorizontalScroll === false) {
-        // Allow vertical scrolling
+        // Release control for vertical scrolling
         isDown = false
       }
     }
 
-    carousel.addEventListener("mousedown", (e) => startDragging(e.pageX, e.pageY))
+    carousel.addEventListener("mousedown", (e) => {
+      startDragging(e.pageX, e.pageY)
+    })
     carousel.addEventListener("mouseleave", stopDragging)
     carousel.addEventListener("mouseup", stopDragging)
-    carousel.addEventListener("mousemove", (e) => move(e.pageX, e))
+    carousel.addEventListener("mousemove", handleMouseMove)
     carousel.addEventListener("touchstart", handleTouchStart, { passive: true })
-    carousel.addEventListener("touchend", stopDragging)
+    carousel.addEventListener("touchend", stopDragging, { passive: true })
     carousel.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     return () => {
       carousel.removeEventListener("mousedown", (e) => startDragging(e.pageX, e.pageY))
       carousel.removeEventListener("mouseleave", stopDragging)
       carousel.removeEventListener("mouseup", stopDragging)
-      carousel.removeEventListener("mousemove", (e) => move(e.pageX, e))
+      carousel.removeEventListener("mousemove", handleMouseMove)
       carousel.removeEventListener("touchstart", handleTouchStart)
       carousel.removeEventListener("touchend", stopDragging)
       carousel.removeEventListener("touchmove", handleTouchMove)
