@@ -115,83 +115,103 @@ const Projects = () => {
     return () => clearInterval(interval)
   }, [currentIndex])
 
-  // Drag/Swipe for carousel
+  // Improved touch handling for mobile
   useEffect(() => {
     if (!carouselRef.current) return
     const carousel = carouselRef.current
-    let isDown = false
-    let startX, startY, scrollLeft
-    let isHorizontalScroll = null
+    let touchStartX = 0
+    let touchStartY = 0
+    let carouselScrollStart = 0
+    let isSwiping = false
+    let swipeDirection = null
 
     const handleTouchStart = (e) => {
-      isDown = true
-      isHorizontalScroll = null
-      startX = e.touches[0].pageX
-      startY = e.touches[0].pageY
-      scrollLeft = carousel.scrollLeft
+      touchStartX = e.touches[0].clientX
+      touchStartY = e.touches[0].clientY
+      carouselScrollStart = carousel.scrollLeft
+      isSwiping = false
+      swipeDirection = null
     }
-    
+
     const handleTouchMove = (e) => {
-      if (!isDown) return
-      
-      const touch = e.touches[0]
-      const x = touch.pageX
-      const y = touch.pageY
-      const deltaX = Math.abs(x - startX)
-      const deltaY = Math.abs(y - startY)
-      
-      // Wait for significant movement before deciding direction
-      if (isHorizontalScroll === null) {
-        if (deltaX < 15 && deltaY < 15) {
-          // Not enough movement yet, don't decide
-          return
+      if (!touchStartX || !touchStartY) return
+
+      const touchEndX = e.touches[0].clientX
+      const touchEndY = e.touches[0].clientY
+      const deltaX = touchStartX - touchEndX
+      const deltaY = touchStartY - touchEndY
+
+      // Determine swipe direction on first significant move
+      if (!swipeDirection) {
+        // Need more horizontal movement than vertical to be considered horizontal swipe
+        // This threshold is key - requiring 2.5x more horizontal movement
+        if (Math.abs(deltaX) > Math.abs(deltaY) * 2.5 && Math.abs(deltaX) > 10) {
+          swipeDirection = 'horizontal'
+          isSwiping = true
+        } else if (Math.abs(deltaY) > 5) {
+          swipeDirection = 'vertical'
         }
-        // Require 2x more horizontal movement to capture the gesture
-        isHorizontalScroll = deltaX > deltaY * 2
       }
-      
-      // Only prevent default and handle if it's clearly horizontal
-      if (isHorizontalScroll === true) {
-        e.preventDefault()
-        carousel.style.scrollBehavior = "auto"
-        const walk = (startX - x) * 1.5
-        carousel.scrollLeft = scrollLeft + walk
+
+      // Only handle horizontal swipes, let vertical scrolling work naturally
+      if (swipeDirection === 'horizontal' && isSwiping) {
+        e.preventDefault() // Only prevent default for horizontal swipes
+        carousel.scrollLeft = carouselScrollStart + deltaX
       }
-      // If vertical, do nothing and let browser handle it naturally
+      // For vertical swipes, don't prevent default - let normal scroll happen
     }
 
-    const handleTouchEnd = () => {
-      if (isDown && isHorizontalScroll === true) {
-        carousel.style.scrollBehavior = "smooth"
-        const slideWidth = carousel.offsetWidth
-        const newIndex = Math.round(carousel.scrollLeft / slideWidth)
-        setCurrentIndex(newIndex)
+    const handleTouchEnd = (e) => {
+      if (isSwiping && swipeDirection === 'horizontal') {
+        const touchEndX = e.changedTouches[0].clientX
+        const deltaX = touchStartX - touchEndX
+        const threshold = carousel.offsetWidth * 0.2 // 20% of carousel width
+
+        if (Math.abs(deltaX) > threshold) {
+          if (deltaX > 0) {
+            // Swiped left - next slide
+            nextSlide()
+          } else {
+            // Swiped right - previous slide
+            prevSlide()
+          }
+        } else {
+          // Snap back to current slide
+          goToSlide(currentIndex)
+        }
       }
-      isDown = false
-      isHorizontalScroll = null
+
+      // Reset
+      touchStartX = 0
+      touchStartY = 0
+      isSwiping = false
+      swipeDirection = null
     }
 
-    // Mouse events for desktop
+    // Mouse events for desktop (unchanged)
+    let isMouseDown = false
+    let mouseStartX = 0
+    let scrollStart = 0
+
     const handleMouseDown = (e) => {
-      isDown = true
-      isHorizontalScroll = true // Desktop always allows horizontal drag
+      isMouseDown = true
       carousel.style.scrollBehavior = "auto"
-      startX = e.pageX
-      scrollLeft = carousel.scrollLeft
+      mouseStartX = e.pageX
+      scrollStart = carousel.scrollLeft
       carousel.style.cursor = "grabbing"
     }
 
     const handleMouseMove = (e) => {
-      if (!isDown) return
+      if (!isMouseDown) return
       e.preventDefault()
       const x = e.pageX
-      const walk = (startX - x) * 1.5
-      carousel.scrollLeft = scrollLeft + walk
+      const walk = (mouseStartX - x) * 1.5
+      carousel.scrollLeft = scrollStart + walk
     }
 
     const handleMouseUp = () => {
-      if (isDown) {
-        isDown = false
+      if (isMouseDown) {
+        isMouseDown = false
         carousel.style.cursor = "grab"
         carousel.style.scrollBehavior = "smooth"
         const slideWidth = carousel.offsetWidth
@@ -200,6 +220,7 @@ const Projects = () => {
       }
     }
 
+    // Add event listeners with proper options
     carousel.addEventListener("touchstart", handleTouchStart, { passive: true })
     carousel.addEventListener("touchmove", handleTouchMove, { passive: false })
     carousel.addEventListener("touchend", handleTouchEnd, { passive: true })
@@ -217,7 +238,7 @@ const Projects = () => {
       carousel.removeEventListener("mouseup", handleMouseUp)
       carousel.removeEventListener("mouseleave", handleMouseUp)
     }
-  }, [])
+  }, [currentIndex, nextSlide, prevSlide, goToSlide])
 
   // Modal animations
   useEffect(() => {
@@ -252,7 +273,7 @@ const Projects = () => {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
-  // Drag/Swipe for modal gallery
+  // Simplified gallery touch handling for modal
   useEffect(() => {
     if (!galleryRef.current) return
     const gallery = galleryRef.current
@@ -273,22 +294,27 @@ const Projects = () => {
       gallery.scrollLeft = scrollLeft - walk
     }
 
-    gallery.addEventListener("mousedown", (e) => startDragging(e.pageX))
+    const handleMouseDown = (e) => startDragging(e.pageX)
+    const handleMouseMove = (e) => move(e.pageX, e)
+    const handleTouchStart = (e) => startDragging(e.touches[0].pageX)
+    const handleTouchMove = (e) => move(e.touches[0].pageX, e)
+
+    gallery.addEventListener("mousedown", handleMouseDown)
     gallery.addEventListener("mouseleave", stopDragging)
     gallery.addEventListener("mouseup", stopDragging)
-    gallery.addEventListener("mousemove", (e) => move(e.pageX, e))
-    gallery.addEventListener("touchstart", (e) => startDragging(e.touches[0].pageX))
-    gallery.addEventListener("touchend", stopDragging)
-    gallery.addEventListener("touchmove", (e) => move(e.touches[0].pageX, e))
+    gallery.addEventListener("mousemove", handleMouseMove)
+    gallery.addEventListener("touchstart", handleTouchStart, { passive: true })
+    gallery.addEventListener("touchend", stopDragging, { passive: true })
+    gallery.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     return () => {
-      gallery.onmousedown = null
-      gallery.onmouseleave = null
-      gallery.onmouseup = null
-      gallery.onmousemove = null
-      gallery.ontouchstart = null
-      gallery.ontouchend = null
-      gallery.ontouchmove = null
+      gallery.removeEventListener("mousedown", handleMouseDown)
+      gallery.removeEventListener("mouseleave", stopDragging)
+      gallery.removeEventListener("mouseup", stopDragging)
+      gallery.removeEventListener("mousemove", handleMouseMove)
+      gallery.removeEventListener("touchstart", handleTouchStart)
+      gallery.removeEventListener("touchend", stopDragging)
+      gallery.removeEventListener("touchmove", handleTouchMove)
     }
   }, [activeProject])
 
@@ -305,14 +331,19 @@ const Projects = () => {
         </p>
       </div>
 
-      {/* Horizontal Carousel */}
+      {/* Horizontal Carousel with improved mobile scrolling */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
         <div className="relative">
-          {/* Carousel Container */}
+          {/* Carousel Container - Added touch-action CSS */}
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth select-none"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x" }}
+            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
+            style={{ 
+              scrollbarWidth: "none", 
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
+              // Don't use select-none here to allow text selection
+            }}
           >
             {projects.map((project, i) => (
               <div
@@ -334,7 +365,7 @@ const Projects = () => {
                       
                       {/* Project Number */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-white/20 text-7xl md:text-9xl font-black leading-none group-hover:text-white/30 transition-colors duration-500">
+                        <div className="text-white/20 text-7xl md:text-9xl font-black leading-none group-hover:text-white/30 transition-colors duration-500 select-none">
                           {String(i + 1).padStart(2, "0")}
                         </div>
                       </div>
@@ -388,6 +419,7 @@ const Projects = () => {
           <button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-10"
+            aria-label="Previous slide"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -396,6 +428,7 @@ const Projects = () => {
           <button
             onClick={nextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-10"
+            aria-label="Next slide"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -414,6 +447,7 @@ const Projects = () => {
                   ? "w-6 h-1.5 md:w-8 md:h-2 bg-gradient-to-r from-yellow-400 to-amber-500"
                   : "w-1.5 h-1.5 md:w-2 md:h-2 bg-slate-700 hover:bg-slate-600"
               }`}
+              aria-label={`Go to slide ${i + 1}`}
             />
           ))}
         </div>
@@ -421,46 +455,47 @@ const Projects = () => {
 
       {/* Modal */}
       {activeProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={closeModal}>
-          <div ref={modalRef} className="relative max-w-4xl w-full mx-6 rounded-3xl border border-slate-700 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 p-8 text-center text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-4xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">{activeProject.name}</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={closeModal}>
+          <div ref={modalRef} className="relative max-w-4xl w-full rounded-3xl border border-slate-700 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 p-6 md:p-8 text-center text-white shadow-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">{activeProject.name}</h3>
 
             {/* Gallery */}
             <div
               ref={galleryRef}
-              className="flex gap-4 overflow-x-auto no-scrollbar mb-6 snap-x snap-mandatory px-2 select-none"
+              className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb-6 snap-x snap-mandatory px-2"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {activeProject.images.map((img, index) => (
-                <div key={index} className="snap-center flex-shrink-0 w-80 h-56 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-slate-500 transition">
-                  <img src={img} alt={activeProject.name} className="w-full h-full object-cover pointer-events-none" />
+                <div key={index} className="snap-center flex-shrink-0 w-72 md:w-80 h-48 md:h-56 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-slate-500 transition">
+                  <img src={img} alt={`${activeProject.name} screenshot ${index + 1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
 
             <div className="text-left max-w-2xl mx-auto">
-              <p className="text-slate-300 text-base mb-6 leading-relaxed">{activeProject.description}</p>
+              <p className="text-slate-300 text-sm md:text-base mb-4 md:mb-6 leading-relaxed">{activeProject.description}</p>
               
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                 {activeProject.tech.map((tech) => (
-                  <span key={tech} className="px-4 py-2 rounded-lg bg-slate-800/60 text-slate-300 text-sm font-medium border border-slate-700/50">
+                  <span key={tech} className="px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-slate-800/60 text-slate-300 text-xs md:text-sm font-medium border border-slate-700/50">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                <span className="text-green-400 text-sm font-semibold">{activeProject.metrics}</span>
+                <span className="text-green-400 text-xs md:text-sm font-semibold">{activeProject.metrics}</span>
                 <span className="text-slate-500">•</span>
-                <span className="text-slate-400 text-sm">{activeProject.category}</span>
+                <span className="text-slate-400 text-xs md:text-sm">{activeProject.category}</span>
               </div>
             </div>
 
-            <button onClick={() => window.open(activeProject.link, "_blank")} className="mt-4 px-8 py-3.5 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 font-semibold shadow-lg hover:scale-105 transition-transform">
+            <button onClick={() => window.open(activeProject.link, "_blank")} className="mt-4 px-6 md:px-8 py-3 md:py-3.5 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 font-semibold shadow-lg hover:scale-105 transition-transform text-sm md:text-base">
               View Live Demo 🚀
             </button>
 
-            <button onClick={closeModal} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition text-2xl font-light">✕</button>
+            <button onClick={closeModal} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition text-2xl font-light" aria-label="Close modal">✕</button>
           </div>
         </div>
       )}
