@@ -144,13 +144,31 @@ const Projects = () => {
       carousel.scrollLeft = scrollLeft - walk
     }
 
+    const handleTouchStart = (e) => {
+      startDragging(e.touches[0].pageX)
+    }
+    
+    const handleTouchMove = (e) => {
+      if (!isDown) return
+      const touch = e.touches[0]
+      const x = touch.pageX
+      const walk = (x - startX) * 2
+      const newScrollLeft = scrollLeft - walk
+      
+      // Only prevent default if actually scrolling horizontally
+      if (Math.abs(walk) > 5) {
+        e.preventDefault()
+        carousel.scrollLeft = newScrollLeft
+      }
+    }
+
     carousel.addEventListener("mousedown", (e) => startDragging(e.pageX))
     carousel.addEventListener("mouseleave", stopDragging)
     carousel.addEventListener("mouseup", stopDragging)
     carousel.addEventListener("mousemove", (e) => move(e.pageX, e))
-    carousel.addEventListener("touchstart", (e) => startDragging(e.touches[0].pageX))
+    carousel.addEventListener("touchstart", handleTouchStart, { passive: true })
     carousel.addEventListener("touchend", stopDragging)
-    carousel.addEventListener("touchmove", (e) => move(e.touches[0].pageX, e))
+    carousel.addEventListener("touchmove", handleTouchMove, { passive: false })
 
     return () => {
       carousel.onmousedown = null
@@ -250,13 +268,13 @@ const Projects = () => {
       </div>
 
       {/* Horizontal Carousel */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6 touch-pan-y">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
         <div className="relative">
           {/* Carousel Container */}
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth select-none touch-pan-x"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth select-none"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x" }}
           >
             {projects.map((project, i) => (
               <div
