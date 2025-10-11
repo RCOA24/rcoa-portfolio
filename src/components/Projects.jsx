@@ -282,9 +282,9 @@ const Projects = () => {
                 className="flex-shrink-0 w-full snap-center px-2 md:px-4"
               >
                 <div className="group cursor-pointer rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl overflow-hidden hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl">
-                  <div className="grid md:grid-cols-2 gap-0">
+                  <div className="grid md:grid-cols-2 gap-0 md:min-h-[24rem]">
                     {/* Project Visual */}
-                    <div className={`relative overflow-hidden bg-gradient-to-br ${project.gradient} h-64 md:h-96`}>
+                    <div className={`relative overflow-hidden bg-gradient-to-br ${project.gradient} h-64 md:h-full`}>
                       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white_0%,transparent_60%)]"></div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                       
