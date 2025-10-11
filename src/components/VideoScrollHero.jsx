@@ -15,7 +15,7 @@ export default function VideoScrollHero() {
   useEffect(() => {
     const header = headerRef.current;
 
-    // Fade + move Hero as you scroll down
+    // Smoother fade + move Hero as you scroll down
     gsap.to(header, {
       opacity: 0,
       y: -100,
@@ -23,7 +23,8 @@ export default function VideoScrollHero() {
         trigger: header,
         start: "top top",
         end: "bottom top+=300",
-        scrub: 1,
+        scrub: 0.5, // Reduced scrub for smoother animation
+        invalidateOnRefresh: true,
       },
     });
 
@@ -50,7 +51,7 @@ export default function VideoScrollHero() {
       },
     });
 
-    // ScrollStack items animation
+    // ScrollStack items animation with better mobile support
     gsap.utils.toArray(".scroll-card").forEach((item) => {
       gsap.fromTo(
         item,
@@ -63,11 +64,25 @@ export default function VideoScrollHero() {
           scrollTrigger: {
             trigger: item,
             start: "top 80%",
-            toggleActions: "play none none none",
+            end: "top 20%",
+            toggleActions: "play reverse play reverse", // Animates both ways
+            invalidateOnRefresh: true,
           },
         }
       );
     });
+
+    // Refresh ScrollTrigger on resize for responsive behavior
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (
@@ -147,7 +162,7 @@ export default function VideoScrollHero() {
           {/* Card 3 */}
           <ScrollStackItem className="scroll-card flex flex-col items-center justify-center text-center min-h-screen">
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-              Let’s Collaborate
+              Let's Collaborate
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
               Open to freelance, remote opportunities, and collaborations.
