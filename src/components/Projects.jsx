@@ -11,36 +11,37 @@ const Projects = () => {
   const carouselRef = useRef(null)
   const modalRef = useRef(null)
   const galleryRef = useRef(null)
+  const imagePreviewRef = useRef(null)
 
   const [activeProject, setActiveProject] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [previewImage, setPreviewImage] = useState(null)
 
-  const projects = [
+const projects = [
     {
-      name: "E-Commerce Platform",
-      gradient: "from-blue-500 via-blue-600 to-purple-600",
-      tech: ["React", "Node.js", "Stripe"],
+      name: "TyphoGuard",
+      image: "/images/ProjectImages/TyphoGuard/TyphoGuard.png",
+      tech: ["Laravel", "Tailwind CSS", "Alpine.js","Nominatim","leaflet.js", "Mapbox", "Docker","Open Source Api"],
       metrics: "50k+ users",
-      link: "https://your-ecommerce-demo.com",
+      link: "https://typhoguard.onrender.com/",
       description:
-        "A modern online shopping experience with real-time product tracking, secure Stripe payments, and a blazing-fast React frontend.",
-      images: ["/images/ecom-1.png", "/images/ecom-2.png", "/images/ecom-3.png"],
+        "A modern online sReal-time weather, tide, and dam monitoring platform for the Philippines. Built with Laravel 11, Tailwind CSS, and powered by public environmental APIs including PAG-ASA, Tomorrow.io, and WeatherAPI.",
+      images: ["/images/ProjectImages/TyphoGuard/Dashboard.png", "/images/ProjectImages/TyphoGuard/DamWaterLevel.png", "/images/ProjectImages/TyphoGuard/Tides.png"],
       category: "Web Application",
     },
     {
-      name: "SaaS Dashboard",
-      gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-      tech: ["Next.js", "PostgreSQL", "Redis"],
-      metrics: "$2M ARR",
-      link: "https://your-saas-demo.com",
-      description:
-        "A scalable SaaS analytics dashboard with real-time data streaming, optimized caching, and elegant chart visualizations.",
-      images: ["/images/saas-1.png", "/images/saas-2.png", "/images/saas-3.png"],
-      category: "Enterprise",
-    },
+    name: "Barangay Management Information System (BMIS)",
+    image: "/images/saas-preview.png",
+    tech: ["Next.js", "PostgreSQL", "Redis", "JavaScript", "PHP", "CodeIgniter", "Twilio", "OpenStreetMap", "Google Earth Pro"],
+    metrics: "$2M ARR",
+    link: "https://your-saas-demo.com",
+    description: "A modern web-based barangay management system built with PHP and CodeIgniter. Features resident data management, automated document issuance, SMS announcements, and geospatial mapping for efficient local governance.",
+    images: ["/images/saas-1.png", "/images/saas-2.png", "/images/saas-3.png"],
+    category: "Enterprise"
+  },
     {
       name: "AI Chat Application",
-      gradient: "from-orange-500 via-red-500 to-pink-500",
+      image: "/images/ai-chat-preview.png",
       tech: ["React", "OpenAI", "WebSocket"],
       metrics: "1M+ messages",
       link: "https://your-ai-chat-demo.com",
@@ -51,7 +52,7 @@ const Projects = () => {
     },
     {
       name: "Social Media Platform",
-      gradient: "from-violet-500 via-purple-600 to-fuchsia-600",
+      image: "/images/social-preview.png",
       tech: ["Vue.js", "GraphQL", "AWS"],
       metrics: "100k+ posts",
       link: "https://your-social-demo.com",
@@ -62,7 +63,7 @@ const Projects = () => {
     },
     {
       name: "Fintech App",
-      gradient: "from-cyan-500 via-blue-600 to-indigo-600",
+      image: "/images/fintech-preview.png",
       tech: ["React Native", "Plaid", "Stripe"],
       metrics: "$10M+ processed",
       link: "https://your-fintech-demo.com",
@@ -72,6 +73,7 @@ const Projects = () => {
       category: "Finance",
     },
   ]
+
 
   // Animations
   useEffect(() => {
@@ -126,6 +128,9 @@ const Projects = () => {
     let swipeDirection = null
 
     const handleTouchStart = (e) => {
+      // Don't start drag if clicking on image
+      if (e.target.tagName === 'IMG') return
+      
       touchStartX = e.touches[0].clientX
       touchStartY = e.touches[0].clientY
       carouselScrollStart = carousel.scrollLeft
@@ -141,10 +146,7 @@ const Projects = () => {
       const deltaX = touchStartX - touchEndX
       const deltaY = touchStartY - touchEndY
 
-      // Determine swipe direction on first significant move
       if (!swipeDirection) {
-        // Need more horizontal movement than vertical to be considered horizontal swipe
-        // This threshold is key - requiring 2.5x more horizontal movement
         if (Math.abs(deltaX) > Math.abs(deltaY) * 2.5 && Math.abs(deltaX) > 10) {
           swipeDirection = 'horizontal'
           isSwiping = true
@@ -153,48 +155,46 @@ const Projects = () => {
         }
       }
 
-      // Only handle horizontal swipes, let vertical scrolling work naturally
       if (swipeDirection === 'horizontal' && isSwiping) {
-        e.preventDefault() // Only prevent default for horizontal swipes
+        e.preventDefault()
         carousel.scrollLeft = carouselScrollStart + deltaX
       }
-      // For vertical swipes, don't prevent default - let normal scroll happen
     }
 
     const handleTouchEnd = (e) => {
       if (isSwiping && swipeDirection === 'horizontal') {
         const touchEndX = e.changedTouches[0].clientX
         const deltaX = touchStartX - touchEndX
-        const threshold = carousel.offsetWidth * 0.2 // 20% of carousel width
+        const threshold = carousel.offsetWidth * 0.2
 
         if (Math.abs(deltaX) > threshold) {
           if (deltaX > 0) {
-            // Swiped left - next slide
             nextSlide()
           } else {
-            // Swiped right - previous slide
             prevSlide()
           }
         } else {
-          // Snap back to current slide
           goToSlide(currentIndex)
         }
       }
 
-      // Reset
       touchStartX = 0
       touchStartY = 0
       isSwiping = false
       swipeDirection = null
     }
 
-    // Mouse events for desktop (unchanged)
     let isMouseDown = false
     let mouseStartX = 0
     let scrollStart = 0
+    let hasDragged = false
 
     const handleMouseDown = (e) => {
+      // Don't start drag if clicking on image
+      if (e.target.tagName === 'IMG') return
+      
       isMouseDown = true
+      hasDragged = false
       carousel.style.scrollBehavior = "auto"
       mouseStartX = e.pageX
       scrollStart = carousel.scrollLeft
@@ -204,6 +204,7 @@ const Projects = () => {
     const handleMouseMove = (e) => {
       if (!isMouseDown) return
       e.preventDefault()
+      hasDragged = true
       const x = e.pageX
       const walk = (mouseStartX - x) * 1.5
       carousel.scrollLeft = scrollStart + walk
@@ -214,13 +215,14 @@ const Projects = () => {
         isMouseDown = false
         carousel.style.cursor = "grab"
         carousel.style.scrollBehavior = "smooth"
-        const slideWidth = carousel.offsetWidth
-        const newIndex = Math.round(carousel.scrollLeft / slideWidth)
-        setCurrentIndex(newIndex)
+        if (hasDragged) {
+          const slideWidth = carousel.offsetWidth
+          const newIndex = Math.round(carousel.scrollLeft / slideWidth)
+          setCurrentIndex(newIndex)
+        }
       }
     }
 
-    // Add event listeners with proper options
     carousel.addEventListener("touchstart", handleTouchStart, { passive: true })
     carousel.addEventListener("touchmove", handleTouchMove, { passive: false })
     carousel.addEventListener("touchend", handleTouchEnd, { passive: true })
@@ -238,7 +240,7 @@ const Projects = () => {
       carousel.removeEventListener("mouseup", handleMouseUp)
       carousel.removeEventListener("mouseleave", handleMouseUp)
     }
-  }, [currentIndex, nextSlide, prevSlide, goToSlide])
+  }, [currentIndex])
 
   // Modal animations
   useEffect(() => {
@@ -267,23 +269,57 @@ const Projects = () => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeModal()
+      if (e.key === "Escape") {
+        if (previewImage) {
+          closeImagePreview()
+        } else {
+          closeModal()
+        }
+      }
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  }, [previewImage])
 
-  // Gallery touch handling for modal - simplified for mobile
+  // Image preview functions
+  const openImagePreview = (imageSrc) => {
+    setPreviewImage(imageSrc)
+    if (imagePreviewRef.current) {
+      gsap.fromTo(
+        imagePreviewRef.current,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }
+      )
+    }
+  }
+
+  const closeImagePreview = () => {
+    if (imagePreviewRef.current) {
+      gsap.to(imagePreviewRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => setPreviewImage(null),
+      })
+    }
+  }
+
+  // Gallery touch handling for modal
   useEffect(() => {
     if (!galleryRef.current) return
     const gallery = galleryRef.current
     
-    // Only add mouse drag for desktop, let mobile use native scroll
     let isMouseDown = false
     let startX, scrollLeft
+    let hasDragged = false
 
     const handleMouseDown = (e) => {
+      // Don't start drag if clicking on image
+      if (e.target.tagName === 'IMG') return
+      
       isMouseDown = true
+      hasDragged = false
       gallery.style.cursor = "grabbing"
       startX = e.pageX - gallery.offsetLeft
       scrollLeft = gallery.scrollLeft
@@ -292,6 +328,7 @@ const Projects = () => {
     const handleMouseMove = (e) => {
       if (!isMouseDown) return
       e.preventDefault()
+      hasDragged = true
       const x = e.pageX - gallery.offsetLeft
       const walk = (x - startX) * 1.5
       gallery.scrollLeft = scrollLeft - walk
@@ -302,7 +339,6 @@ const Projects = () => {
       gallery.style.cursor = "grab"
     }
 
-    // Only add mouse events for desktop dragging
     gallery.addEventListener("mousedown", handleMouseDown)
     gallery.addEventListener("mouseleave", handleMouseUp)
     gallery.addEventListener("mouseup", handleMouseUp)
@@ -329,18 +365,15 @@ const Projects = () => {
         </p>
       </div>
 
-      {/* Horizontal Carousel with improved mobile scrolling */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
-        <div className="relative">
-          {/* Carousel Container - Added touch-action CSS */}
+        <div className="relative min-h-[600px] md:min-h-[500px]">
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
+            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing"
             style={{ 
               scrollbarWidth: "none", 
               msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
-              // Don't use select-none here to allow text selection
+              WebkitOverflowScrolling: "touch",
             }}
           >
             {projects.map((project, i) => (
@@ -348,31 +381,44 @@ const Projects = () => {
                 key={project.name}
                 className="flex-shrink-0 w-full snap-center px-2 md:px-4"
               >
-                <div className="group cursor-pointer rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl overflow-hidden hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl">
-                  <div className="grid md:grid-cols-2 gap-0 md:min-h-[24rem]">
-                    {/* Project Visual */}
-                    <div className={`relative overflow-hidden bg-gradient-to-br ${project.gradient} h-64 md:h-full`}>
-                      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white_0%,transparent_60%)]"></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="group rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl overflow-hidden hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl h-full">
+                  <div className="grid md:grid-cols-2 gap-0 h-full md:min-h-[24rem]">
+                    {/* Project Image */}
+                    <div 
+                      className="relative overflow-hidden h-64 md:h-full bg-slate-900 cursor-pointer"
+                      onClick={() => openImagePreview(project.image)}
+                    >
+                      <img 
+                        src={project.image} 
+                        alt={project.name}
+                        className="absolute inset-0 w-full h-full object-contain transition-all duration-700 group-hover:scale-105 pointer-events-none"
+                        draggable="false"
+                      />
                       
-                      {/* Animated Pattern */}
-                      <div className="absolute inset-0 opacity-10">
-                        <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-white blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
-                        <div className="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-white blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
-                      </div>
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       
-                      {/* Project Number */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-white/20 text-7xl md:text-9xl font-black leading-none group-hover:text-white/30 transition-colors duration-500 select-none">
-                          {String(i + 1).padStart(2, "0")}
+                      {/* Zoom Icon Hint */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
                         </div>
                       </div>
-
+                      
                       {/* Category Badge */}
-                      <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                      <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none">
                         <span className="px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
                           {project.category}
                         </span>
+                      </div>
+
+                      {/* Project Number */}
+                      <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-10 pointer-events-none">
+                        <div className="text-white/40 text-5xl md:text-7xl font-black leading-none group-hover:text-white/60 transition-colors duration-500 select-none">
+                          {String(i + 1).padStart(2, "0")}
+                        </div>
                       </div>
                     </div>
 
@@ -460,12 +506,29 @@ const Projects = () => {
             {/* Gallery */}
             <div
               ref={galleryRef}
-              className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb-6 snap-x snap-mandatory px-2"
+              className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb-6 snap-x snap-mandatory px-2 cursor-grab active:cursor-grabbing"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {activeProject.images.map((img, index) => (
-                <div key={index} className="snap-center flex-shrink-0 w-72 md:w-80 h-48 md:h-56 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-slate-500 transition">
-                  <img src={img} alt={`${activeProject.name} screenshot ${index + 1}`} className="w-full h-full object-cover" />
+                <div 
+                  key={index} 
+                  className="snap-center flex-shrink-0 w-72 md:w-80 h-48 md:h-56 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
+                  onClick={() => openImagePreview(img)}
+                >
+                  <img 
+                    src={img} 
+                    alt={`${activeProject.name} screenshot ${index + 1}`} 
+                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 pointer-events-none" 
+                    draggable="false"
+                  />
+                  {/* Zoom hint */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px]">
+                    <div className="w-12 h-12 rounded-full bg-yellow-500/20 backdrop-blur-md border border-yellow-400/30 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -494,6 +557,49 @@ const Projects = () => {
             </button>
 
             <button onClick={closeModal} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition text-2xl font-light" aria-label="Close modal">✕</button>
+          </div>
+        </div>
+      )}
+
+      {/* Image Preview Modal */}
+      {previewImage && (
+        <div 
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-8" 
+          onClick={closeImagePreview}
+        >
+          <div 
+            ref={imagePreviewRef}
+            className="relative max-w-7xl max-h-[95vh] w-full h-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button 
+              onClick={closeImagePreview}
+              className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110"
+              aria-label="Close preview"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Image container with modern frame */}
+            <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-4 max-w-full max-h-full">
+              <img 
+                src={previewImage} 
+                alt="Full preview"
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+                draggable="false"
+              />
+              
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-500/5 via-transparent to-amber-500/5 pointer-events-none"></div>
+            </div>
+
+            {/* Hint text */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-slate-300 text-sm font-medium">
+              Click anywhere to close
+            </div>
           </div>
         </div>
       )}
