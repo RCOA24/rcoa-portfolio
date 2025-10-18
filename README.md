@@ -17,8 +17,8 @@ This is the professional portfolio website of Rodney Charles O. Austria (RCOA), 
 
 Detail-oriented Full Stack Web Developer with proven experience at Odecci Solutions Inc. and multiple successful freelance projects. BS Information Technology graduate from STI College Balagtas, specializing in:
 
-- **Back-End Development:** Laravel, PHP, Node.js, RESTful APIs
-- **Front-End Development:** React, JavaScript, HTML5, CSS3, Tailwind CSS
+- **Back-End Development:** Laravel, PHP, RESTful APIs
+- **Front-End Development:** React, JavaScript, HTML5, CSS3, Tailwind CSS, GSAP
 - **Full Stack:** TALL Stack (Tailwind, Alpine.js, Laravel, Livewire)
 - **Database Management:** MySQL, MSSQL
 - **Specializations:** CRM Systems, Government Management Systems, API Integration
@@ -29,34 +29,6 @@ Detail-oriented Full Stack Web Developer with proven experience at Odecci Soluti
 - **Modern UI/UX:** Clean, professional interface with smooth animations
 - **SEO Optimized:** Enhanced visibility with comprehensive meta tags and structured data
 - **Performance Focused:** Fast loading times and optimized assets
-- **Interactive Sections:**
-  - About Me
-  - Technical Skills & Expertise
-  - Featured Projects Portfolio
-  - Professional Experience Timeline
-  - Education & Certifications
-  - Contact Information
-
-## 🚀 Technologies Used
-
-### Frontend
-- HTML5
-- CSS3 / Sass/SCSS
-- JavaScript (ES6+)
-- React.js
-- Tailwind CSS
-- Bootstrap
-- Alpine.js
-
-### Build Tools & Deployment
-- Git & GitHub
-- Netlify (CI/CD)
-- npm/yarn
-
-### Design Tools
-- Figma
-- Adobe Photoshop
-- Adobe Illustrator
 
 ## 📂 Project Structure
 
@@ -143,8 +115,6 @@ The portfolio is accessible at `rcoa.netlify.app`. To set up a custom domain:
 ## 📧 Contact Information
 
 **Rodney Charles O. Austria**
-
-- 📍 Address: 373 Catidnig St., Poblacion, Guiguinto, Bulacan 3015, Philippines
 - 📧 Email: rodneycharlesaustria1124@gmail.com
 - 📱 Phone: 0921-716-7659
 - 🌐 Website: [rcoa.netlify.app](https://rcoa.netlify.app)
@@ -152,7 +122,6 @@ The portfolio is accessible at `rcoa.netlify.app`. To set up a custom domain:
 - 🐙 GitHub: [@RCOA24](https://github.com/RCOA24)
 
 ## 🤝 Available For
-
 - ✅ Freelance Projects
 - ✅ Contract Work
 - ✅ Remote Collaboration
