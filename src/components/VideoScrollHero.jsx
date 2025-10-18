@@ -145,7 +145,7 @@ export default function VideoScrollHero() {
               Digital Creator
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              I design and build modern web apps with smooth animations, beautiful UI, and scalable backends.
+              Detail-oriented developer skilled in full-stack web solutions, responsive interfaces, and seamless API integrations for real-world impact.
             </p>
           </ScrollStackItem>
 
@@ -155,7 +155,7 @@ export default function VideoScrollHero() {
               Technologies
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              React, Tailwind, GSAP, Node.js, Laravel, PHP, SQL, and more.
+              React, Tailwind, GSAP, Restful APIs, Laravel, PHP, SQL, and more.
             </p>
           </ScrollStackItem>
 
@@ -165,7 +165,7 @@ export default function VideoScrollHero() {
               Let's Collaborate
             </h2>
             <p className="text-lg sm:text-2xl md:text-3xl opacity-80 max-w-3xl">
-              Open to freelance, remote opportunities, and collaborations.
+              Open to freelance, remote projects, and cross-functional collaborations—let's build innovative solutions together.
             </p>
           </ScrollStackItem>
         </ScrollStack>

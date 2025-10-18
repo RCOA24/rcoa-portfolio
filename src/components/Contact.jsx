@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import emailjs from '@emailjs/browser'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -15,6 +16,14 @@ const Contact = () => {
   
   const [focusedInput, setFocusedInput] = useState(null)
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
+
+  // Initialize EmailJS (add this in your main app or here)
+  useEffect(() => {
+    // Replace with your actual EmailJS public key
+    emailjs.init('dkfdS3nJ3WBheuICB')
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -101,19 +110,63 @@ const Contact = () => {
     return () => ctx.revert()
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    gsap.to(formContainerRef.current, {
-      scale: 0.95,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      onComplete: () => {
-        alert('Message sent! This is a demo.')
-        setFormData({ name: '', email: '', message: '' })
+    // Validation
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus('error')
+      setTimeout(() => setSubmitStatus(null), 3000)
+      return
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus('invalid-email')
+      setTimeout(() => setSubmitStatus(null), 3000)
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      // Send email using EmailJS - matching your template parameters
+      const result = await emailjs.send(
+        'service_hjp7pps',
+        'template_e6v1c08',
+        {
+          name: formData.name,              // matches {{name}} in template
+          your_name: formData.name,         // matches {{your_name}} in template
+          your_email: formData.email,       // matches {{your_email}} in template
+          email: 'rodneycharlesaustria1124@gmail.com',  // matches {{email}} in template
+          title: formData.message,          // matches {{title}} in template
+          message: formData.message         // if you also have {{message}} in template
+        }
+      )
+
+      if (result.text === 'OK') {
+        // Animate success
+        gsap.to(formContainerRef.current, {
+          scale: 0.95,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          onComplete: () => {
+            setSubmitStatus('success')
+            setFormData({ name: '', email: '', message: '' })
+            setIsSubmitting(false)
+            setTimeout(() => setSubmitStatus(null), 5000)
+          }
+        })
       }
-    })
+    } catch (error) {
+      console.error('EmailJS Error:', error)
+      setSubmitStatus('error')
+      setIsSubmitting(false)
+      setTimeout(() => setSubmitStatus(null), 3000)
+    }
   }
 
   return (
@@ -171,7 +224,7 @@ const Contact = () => {
               {/* Name Input */}
               <div ref={(el) => (inputRefs.current[0] = el)} className="relative group">
                 <label className="block text-slate-400 text-sm font-medium mb-2 ml-1">
-                  Your Name
+                  Your Name *
                 </label>
                 <input
                   type="text"
@@ -188,7 +241,7 @@ const Contact = () => {
               {/* Email Input */}
               <div ref={(el) => (inputRefs.current[1] = el)} className="relative group">
                 <label className="block text-slate-400 text-sm font-medium mb-2 ml-1">
-                  Email Address
+                  Email Address *
                 </label>
                 <input
                   type="email"
@@ -205,7 +258,7 @@ const Contact = () => {
               {/* Message Input */}
               <div ref={(el) => (inputRefs.current[2] = el)} className="relative group">
                 <label className="block text-slate-400 text-sm font-medium mb-2 ml-1">
-                  Your Message
+                  Your Message *
                 </label>
                 <textarea
                   value={formData.message}
@@ -219,17 +272,47 @@ const Contact = () => {
                 <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 ${focusedInput === 'message' ? 'w-full' : 'w-0'}`}></div>
               </div>
 
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-2xl text-green-400 text-center">
+                  ✓ Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-2xl text-red-400 text-center">
+                  ✗ Failed to send message. Please try again or email me directly.
+                </div>
+              )}
+              {submitStatus === 'invalid-email' && (
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/50 rounded-2xl text-yellow-400 text-center">
+                  ⚠ Please enter a valid email address.
+                </div>
+              )}
+
               {/* Submit Button */}
               <div ref={(el) => (inputRefs.current[3] = el)}>
                 <button
                   onClick={handleSubmit}
-                  className="group relative w-full py-5 px-8 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 rounded-2xl text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.5)] hover:scale-[1.02] active:scale-[0.98]"
+                  disabled={isSubmitting}
+                  className="group relative w-full py-5 px-8 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 rounded-2xl text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.5)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-3">
-                    Send Message
-                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </>
+                    )}
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-700 via-blue-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>
@@ -238,7 +321,7 @@ const Contact = () => {
 
             {/* Contact Info */}
             <div className="mt-12 pt-8 border-t border-slate-800/50 flex flex-wrap items-center justify-center gap-6 text-slate-400 text-sm">
-              <a href="https://mail.google.com/mail/?view=cm&to=rodneycharlesaustria1124@gmail.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-purple-400 transition-colors">
+              <a href="mailto:rodneycharlesaustria1124@gmail.com" className="flex items-center gap-2 hover:text-purple-400 transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>

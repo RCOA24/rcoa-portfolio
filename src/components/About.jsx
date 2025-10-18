@@ -12,6 +12,7 @@ const About = () => {
   const contentRef = useRef(null)
   const imageRef = useRef(null)
   const buttonRef = useRef(null)
+  const certificatesButtonRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -146,13 +147,30 @@ const About = () => {
           once: true,
         },
       })
+
+      gsap.from(certificatesButtonRef.current, {
+        opacity: 0,
+        x: -15,
+        duration: 0.6,
+        delay: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: certificatesButtonRef.current,
+          start: "top 90%",
+          once: true,
+        },
+      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
   const handleResumeClick = () => {
-    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2025.pdf`, "_blank")
+    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume1_2025.pdf`, "_blank")
+  }
+
+  const handleCertificatesClick = () => {
+    window.open(`${import.meta.env.BASE_URL}Scan_Copy_of_Certificates_2025.pdf`, "_blank")
   }
 
   return (
@@ -188,30 +206,35 @@ const About = () => {
             ref={contentRef}
             className="space-y-8 text-xl md:text-2xl font-light leading-relaxed text-zinc-300"
           >
-            <p>
-              I'm a full-stack developer who believes in the power of simplicity. Every line of
-              code, every pixel placed with intention.
-            </p>
-            <p>
-              Specializing in <span className="text-white font-medium">React</span>,{" "}
-              <span className="text-white font-medium">Node.js</span>, and{" "}
-              <span className="text-white font-medium">modern design systems</span> — I build
-              products that people love to use.
-            </p>
+           <p> I'm a full-stack developer passionate about building responsive, scalable web applications with clean, maintainable code. Every feature designed with purpose and precision. </p>
+           <p> Specializing in <span className="text-white font-medium">React</span>, 
+          <span className="text-white font-medium">Laravel</span>, and 
+          <span className="text-white font-medium"> modern responsive systems</span>
+           — I create products that deliver seamless user experiences and robust performance. </p>
 
-            {/* Less but better + Resume Button */}
+            {/* Less but better + Buttons */}
             <div className="mt-12">
               <p className="text-3xl md:text-4xl font-normal text-white leading-tight mb-4">
                 Less but better.
               </p>
-              <button
-                ref={buttonRef}
-                onClick={handleResumeClick}
-                className="group overflow-hidden rounded-full border border-zinc-700 bg-zinc-900/70 px-6 py-2 text-base md:text-lg font-medium text-white shadow-lg backdrop-blur transition duration-300 hover:bg-zinc-800"
-              >
-                <span className="relative z-10">View Resume</span>
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300"></span>
-              </button>
+              <div className="flex flex-wrap gap-4">
+                <button
+                  ref={buttonRef}
+                  onClick={handleResumeClick}
+                  className="group overflow-hidden rounded-full border border-zinc-700 bg-zinc-900/70 px-6 py-2 text-base md:text-lg font-medium text-white shadow-lg backdrop-blur transition duration-300 hover:bg-zinc-800"
+                >
+                  <span className="relative z-10">View Resume</span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                </button>
+                <button
+                  ref={certificatesButtonRef}
+                  onClick={handleCertificatesClick}
+                  className="group overflow-hidden rounded-full border border-zinc-700 bg-zinc-900/70 px-6 py-2 text-base md:text-lg font-medium text-white shadow-lg backdrop-blur transition duration-300 hover:bg-zinc-800"
+                >
+                  <span className="relative z-10">View Certificates</span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                </button>
+              </div>
             </div>
           </div>
 
