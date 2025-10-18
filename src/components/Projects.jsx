@@ -22,56 +22,56 @@ const projects = [
       name: "TyphoGuard",
       image: "/images/ProjectImages/TyphoGuard/TyphoGuard.png",
       tech: ["Laravel", "Tailwind CSS", "Alpine.js","Nominatim","leaflet.js", "Mapbox", "Docker","Open Source Api"],
-      metrics: "50k+ users",
+      metrics: "Live",
       link: "https://typhoguard.onrender.com/",
       description:
         "A modern online sReal-time weather, tide, and dam monitoring platform for the Philippines. Built with Laravel 11, Tailwind CSS, and powered by public environmental APIs including PAG-ASA, Tomorrow.io, and WeatherAPI.",
       images: ["/images/ProjectImages/TyphoGuard/Dashboard.png", "/images/ProjectImages/TyphoGuard/DamWaterLevel.png", "/images/ProjectImages/TyphoGuard/Tides.png"],
-      category: "Web Application",
+      category: "Website Application",
     },
     {
     name: "Barangay Management Information System (BMIS)",
-    image: "/images/saas-preview.png",
-    tech: ["Next.js", "PostgreSQL", "Redis", "JavaScript", "PHP", "CodeIgniter", "Twilio", "OpenStreetMap", "Google Earth Pro"],
-    metrics: "$2M ARR",
-    link: "https://your-saas-demo.com",
+    image:"/images/ProjectImages/BMIS/BMISThumbnail.png",
+    tech: ["MYSQL", "XAMMP", "JavaScript", "PHP", "CodeIgniter", "Twilio", "OpenStreetMap", "Google Earth Pro", "Bootstrap CSS"],
+    metrics: "Video Walkthrough Available",
+    link: "https://youtu.be/24sDilnbSVQ",
     description: "A modern web-based barangay management system built with PHP and CodeIgniter. Features resident data management, automated document issuance, SMS announcements, and geospatial mapping for efficient local governance.",
-    images: ["/images/saas-1.png", "/images/saas-2.png", "/images/saas-3.png"],
-    category: "Enterprise"
+    images: ["/images/ProjectImages/BMIS/BMISDashboard.png", "/images/ProjectImages/BMIS/BMISClearance.png", "/images/ProjectImages/BMIS/BMISsms.png"],
+    category: "Enterprise Website Application", 
   },
-    {
-      name: "AI Chat Application",
-      image: "/images/ai-chat-preview.png",
-      tech: ["React", "OpenAI", "WebSocket"],
-      metrics: "1M+ messages",
-      link: "https://your-ai-chat-demo.com",
-      description:
-        "An interactive chat experience powered by OpenAI, enabling natural, dynamic, and engaging real-time AI conversations.",
-      images: ["/images/ai-1.png", "/images/ai-2.png", "/images/ai-3.png"],
-      category: "AI/ML",
-    },
-    {
-      name: "Social Media Platform",
-      image: "/images/social-preview.png",
-      tech: ["Vue.js", "GraphQL", "AWS"],
-      metrics: "100k+ posts",
-      link: "https://your-social-demo.com",
-      description:
-        "A vibrant social network with real-time feeds, story features, and seamless media sharing built for the modern web.",
-      images: ["/images/social-1.png", "/images/social-2.png", "/images/social-3.png"],
-      category: "Social Network",
-    },
-    {
-      name: "Fintech App",
-      image: "/images/fintech-preview.png",
-      tech: ["React Native", "Plaid", "Stripe"],
-      metrics: "$10M+ processed",
-      link: "https://your-fintech-demo.com",
-      description:
-        "A secure financial management app with bank integrations, budget tracking, and intelligent spending insights.",
-      images: ["/images/fintech-1.png", "/images/fintech-2.png", "/images/fintech-3.png"],
-      category: "Finance",
-    },
+    // {
+    //   name: "AI Chat Application",
+    //   image: "/images/ai-chat-preview.png",
+    //   tech: ["React", "OpenAI", "WebSocket"],
+    //   metrics: "1M+ messages",
+    //   link: "https://your-ai-chat-demo.com",
+    //   description:
+    //     "An interactive chat experience powered by OpenAI, enabling natural, dynamic, and engaging real-time AI conversations.",
+    //   images: ["/images/ai-1.png", "/images/ai-2.png", "/images/ai-3.png"],
+    //   category: "AI/ML",
+    // },
+    // {
+    //   name: "Social Media Platform",
+    //   image: "/images/social-preview.png",
+    //   tech: ["Vue.js", "GraphQL", "AWS"],
+    //   metrics: "100k+ posts",
+    //   link: "https://your-social-demo.com",
+    //   description:
+    //     "A vibrant social network with real-time feeds, story features, and seamless media sharing built for the modern web.",
+    //   images: ["/images/social-1.png", "/images/social-2.png", "/images/social-3.png"],
+    //   category: "Social Network",
+    // },
+    // {
+    //   name: "Fintech App",
+    //   image: "/images/fintech-preview.png",
+    //   tech: ["React Native", "Plaid", "Stripe"],
+    //   metrics: "$10M+ processed",
+    //   link: "https://your-fintech-demo.com",
+    //   description:
+    //     "A secure financial management app with bank integrations, budget tracking, and intelligent spending insights.",
+    //   images: ["/images/fintech-1.png", "/images/fintech-2.png", "/images/fintech-3.png"],
+    //   category: "Finance",
+    // },
   ]
 
 
@@ -358,7 +358,7 @@ const projects = [
 
       <div className="relative z-10 text-center mb-8 md:mb-12 px-6">
         <h2 ref={titleRef} className="text-4xl md:text-7xl font-extrabold bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
-          Award-Winning Projects
+          Featured Projects
         </h2>
         <p ref={subtitleRef} className="mt-4 md:mt-6 text-slate-400 text-base md:text-xl max-w-2xl mx-auto font-light">
           Blending design, motion, and engineering to craft immersive digital experiences that inspire and perform.
