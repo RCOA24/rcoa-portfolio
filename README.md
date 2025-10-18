@@ -2,7 +2,7 @@
 
 > Professional Full Stack Web Developer Portfolio - Rodney Charles O. Austria
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/rcoa/deploys)
+
 [![Live Site](https://img.shields.io/badge/Live-rcoa.netlify.app-success)](https://rcoa.netlify.app)
 
 ## 🌐 Live Demo
