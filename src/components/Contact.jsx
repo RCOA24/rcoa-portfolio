@@ -218,7 +218,7 @@ const Contact = () => {
             ref={subtitleRef}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light"
           >
-            Have a project in mind? Let's create something extraordinary together.
+            Have a project in mind? Let's create something extraordinary together!
           </p>
         </div>
 
