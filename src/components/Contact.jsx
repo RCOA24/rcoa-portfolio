@@ -15,14 +15,13 @@ const Contact = () => {
   const inputRefs = useRef([])
   
   const [focusedInput, setFocusedInput] = useState(null)
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', title: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
 
-  // Initialize EmailJS (add this in your main app or here)
+  // Initialize EmailJS using environment variable
   useEffect(() => {
-    // Replace with your actual EmailJS public key
-    emailjs.init('dkfdS3nJ3WBheuICB')
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
   }, [])
 
   useEffect(() => {
@@ -114,7 +113,7 @@ const Contact = () => {
     e.preventDefault()
     
     // Validation
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.title || !formData.message) {
       setSubmitStatus('error')
       setTimeout(() => setSubmitStatus(null), 3000)
       return
@@ -132,17 +131,17 @@ const Contact = () => {
     setSubmitStatus(null)
 
     try {
-      // Send email using EmailJS - matching your template parameters
+      // Send email using EmailJS with environment variables
       const result = await emailjs.send(
-        'service_hjp7pps',
-        'template_e6v1c08',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          name: formData.name,              // matches {{name}} in template
-          your_name: formData.name,         // matches {{your_name}} in template
-          your_email: formData.email,       // matches {{your_email}} in template
-          email: 'rodneycharlesaustria1124@gmail.com',  // matches {{email}} in template
-          title: formData.message,          // matches {{title}} in template
-          message: formData.message         // if you also have {{message}} in template
+          name: formData.name,              // Sender's name
+          your_name: formData.name,         // For template compatibility
+          your_email: formData.email,       // Sender's email (auto-reply goes here)
+          email: formData.email,            // Sender's email
+          title: formData.title,            // Message title
+          message: formData.message         // Message content
         }
       )
 
@@ -155,7 +154,7 @@ const Contact = () => {
           repeat: 1,
           onComplete: () => {
             setSubmitStatus('success')
-            setFormData({ name: '', email: '', message: '' })
+            setFormData({ name: '', email: '', title: '', message: '' })
             setIsSubmitting(false)
             setTimeout(() => setSubmitStatus(null), 5000)
           }
@@ -255,8 +254,25 @@ const Contact = () => {
                 <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 ${focusedInput === 'email' ? 'w-full' : 'w-0'}`}></div>
               </div>
 
-              {/* Message Input */}
+              {/* Title Input */}
               <div ref={(el) => (inputRefs.current[2] = el)} className="relative group">
+                <label className="block text-slate-400 text-sm font-medium mb-2 ml-1">
+                  Message Title *
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onFocus={() => setFocusedInput('title')}
+                  onBlur={() => setFocusedInput(null)}
+                  className="w-full px-6 py-4 bg-slate-950/50 border-2 border-slate-800 rounded-2xl text-white placeholder-slate-600 focus:outline-none focus:border-purple-500 transition-all duration-300 focus:shadow-[0_0_30px_rgba(168,85,247,0.2)]"
+                  placeholder="Project Inquiry"
+                />
+                <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-300 ${focusedInput === 'title' ? 'w-full' : 'w-0'}`}></div>
+              </div>
+
+              {/* Message Input */}
+              <div ref={(el) => (inputRefs.current[3] = el)} className="relative group">
                 <label className="block text-slate-400 text-sm font-medium mb-2 ml-1">
                   Your Message *
                 </label>
@@ -290,7 +306,7 @@ const Contact = () => {
               )}
 
               {/* Submit Button */}
-              <div ref={(el) => (inputRefs.current[3] = el)}>
+              <div ref={(el) => (inputRefs.current[4] = el)}>
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
