@@ -3,11 +3,11 @@
 > Professional Full Stack Web Developer Portfolio - Rodney Charles O. Austria
 
 
-[![Live Site](https://img.shields.io/badge/Live-rcoa.netlify.app-success)](https://rcoa.netlify.app)
+
 
 ## 🌐 Live Demo
 
-**Visit:** [rcoa.netlify.app](https://rcoa.netlify.app)
+**Visit:** [![Live Site](https://img.shields.io/badge/Live-rcoa.netlify.app-success)](https://rcoa.netlify.app)
 
 ## 📖 About
 
