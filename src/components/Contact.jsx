@@ -131,21 +131,30 @@ const Contact = () => {
     setSubmitStatus(null)
 
     try {
-      // Send email using EmailJS with environment variables
-      const result = await emailjs.send(
+      const templateParams = {
+        name: formData.name,
+        your_name: formData.name,
+        your_email: formData.email,
+        email: formData.email,
+        title: formData.title,
+        message: formData.message
+      }
+
+      // Email 1: Send notification to YOU (rodneycharlesaustria1124@gmail.com)
+      const notificationResult = await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          name: formData.name,              // Sender's name
-          your_name: formData.name,         // For template compatibility
-          your_email: formData.email,       // Sender's email (auto-reply goes here)
-          email: formData.email,            // Sender's email
-          title: formData.title,            // Message title
-          message: formData.message         // Message content
-        }
+        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID, // Contact Us template
+        templateParams
       )
 
-      if (result.text === 'OK') {
+      // Email 2: Send auto-reply confirmation to USER
+      const autoReplyResult = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Auto-Reply template
+        templateParams
+      )
+
+      if (notificationResult.text === 'OK' && autoReplyResult.text === 'OK') {
         // Animate success
         gsap.to(formContainerRef.current, {
           scale: 0.95,
