@@ -361,7 +361,7 @@ const projects = [
           Featured Projects
         </h2>
         <p ref={subtitleRef} className="mt-4 md:mt-6 text-slate-400 text-base md:text-xl max-w-2xl mx-auto font-light">
-          Blending design, motion, and engineering to craft immersive digital experiences that inspire and perform.
+          Integrating front-end design, dynamic interactions, and robust back-end engineering to deliver engaging, high-performing web applications that drive results.
         </p>
       </div>
 
