@@ -166,7 +166,7 @@ const About = () => {
   }, [])
 
   const handleResumeClick = () => {
-    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume1_2025.pdf`, "_blank")
+    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2025.pdf`, "_blank")
   }
 
   const handleCertificatesClick = () => {
@@ -238,20 +238,20 @@ const About = () => {
             </div>
           </div>
 
-          {/* Image */}
-          <div ref={imageRef} className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-800/50 shadow-2xl shadow-black/50">
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-zinc-700/10 to-transparent"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <img
-                  src="/images/Profile.jpg"
-                  alt="Rodney Austria"
-                  className="w-full h-full object-cover rounded-3xl"
-                />
-              </div>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:32px_32px]"></div>
-            </div>
-          </div>
+         {/* Image */}
+<div ref={imageRef} className="relative">
+  <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-800/50 shadow-2xl shadow-black/50">
+    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-zinc-700/10 to-transparent"></div>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <img
+        src="/images/FormalPicture.jpg"
+        alt="Rodney Austria"
+        className="w-full h-full object-cover object-[center_20%]"
+      />
+    </div>
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:32px_32px]"></div>
+  </div>
+</div>
         </div>
       </div>
     </section>
