@@ -25,7 +25,7 @@ const projects = [
       metrics: "Live",
       link: "https://typhoguard.onrender.com/",
       description:
-        "A modern online sReal-time weather, tide, and dam monitoring platform for the Philippines. Built with Laravel 11, Tailwind CSS, and powered by public environmental APIs including PAG-ASA, Tomorrow.io, and WeatherAPI.",
+        "A modern online Real-time weather, tide, and dam monitoring platform for the Philippines. Built with Laravel 11, Tailwind CSS, and powered by public environmental APIs including PAG-ASA, Tomorrow.io, and WeatherAPI.",
       images: ["/images/ProjectImages/TyphoGuard/Dashboard.png", "/images/ProjectImages/TyphoGuard/DamWaterLevel.png", "/images/ProjectImages/TyphoGuard/Tides.png"],
       category: "Website Application",
     },
@@ -39,39 +39,17 @@ const projects = [
     images: ["/images/ProjectImages/BMIS/BMISDashboard.png", "/images/ProjectImages/BMIS/BMISClearance.png", "/images/ProjectImages/BMIS/BMISsms.png"],
     category: "Enterprise Website Application", 
   },
-    // {
-    //   name: "AI Chat Application",
-    //   image: "/images/ai-chat-preview.png",
-    //   tech: ["React", "OpenAI", "WebSocket"],
-    //   metrics: "1M+ messages",
-    //   link: "https://your-ai-chat-demo.com",
-    //   description:
-    //     "An interactive chat experience powered by OpenAI, enabling natural, dynamic, and engaging real-time AI conversations.",
-    //   images: ["/images/ai-1.png", "/images/ai-2.png", "/images/ai-3.png"],
-    //   category: "AI/ML",
-    // },
-    // {
-    //   name: "Social Media Platform",
-    //   image: "/images/social-preview.png",
-    //   tech: ["Vue.js", "GraphQL", "AWS"],
-    //   metrics: "100k+ posts",
-    //   link: "https://your-social-demo.com",
-    //   description:
-    //     "A vibrant social network with real-time feeds, story features, and seamless media sharing built for the modern web.",
-    //   images: ["/images/social-1.png", "/images/social-2.png", "/images/social-3.png"],
-    //   category: "Social Network",
-    // },
-    // {
-    //   name: "Fintech App",
-    //   image: "/images/fintech-preview.png",
-    //   tech: ["React Native", "Plaid", "Stripe"],
-    //   metrics: "$10M+ processed",
-    //   link: "https://your-fintech-demo.com",
-    //   description:
-    //     "A secure financial management app with bank integrations, budget tracking, and intelligent spending insights.",
-    //   images: ["/images/fintech-1.png", "/images/fintech-2.png", "/images/fintech-3.png"],
-    //   category: "Finance",
-    // },
+    {
+      name: "Striven",
+      image: "/images/ProjectImages/Striven/StrivenThumbnail.png",
+      tech: ["React", "Dexie.js", "Vite", "Tailwind CSS", "IndexedDB", "PWA", "Capacitor", "Generic Sensor API", "WebRTC", "Cordova-Plugin-IosRTC", "AI Food Recognition API"],
+      metrics: "Live",
+      link: "https://striven.netlify.app/",
+      description:
+        "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
+      images: ["/images/ProjectImages/Striven/StrivenLaptopLandscape.png", "/images/ProjectImages/Striven/StrivenIpadLandscape.png", "/images/ProjectImages/Striven/StrivenCP.png"],
+      category: "Fitness & Health",
+    },
   ]
 
 
@@ -117,7 +95,7 @@ const projects = [
     return () => clearInterval(interval)
   }, [currentIndex])
 
-  // Improved touch handling for mobile
+  // Improved touch handling for mobile - ONLY on carousel container
   useEffect(() => {
     if (!carouselRef.current) return
     const carousel = carouselRef.current
@@ -128,8 +106,14 @@ const projects = [
     let swipeDirection = null
 
     const handleTouchStart = (e) => {
-      // Don't start drag if clicking on image
-      if (e.target.tagName === 'IMG') return
+      // Only handle swipes on the carousel container itself or card backgrounds, not interactive elements
+      const target = e.target
+      if (
+        target.tagName === 'BUTTON' || 
+        target.tagName === 'IMG' ||
+        target.closest('button') ||
+        target.closest('.project-info')
+      ) return
       
       touchStartX = e.touches[0].clientX
       touchStartY = e.touches[0].clientY
@@ -190,8 +174,14 @@ const projects = [
     let hasDragged = false
 
     const handleMouseDown = (e) => {
-      // Don't start drag if clicking on image
-      if (e.target.tagName === 'IMG') return
+      // Only handle drag on carousel container or card backgrounds, not interactive elements
+      const target = e.target
+      if (
+        target.tagName === 'BUTTON' || 
+        target.tagName === 'IMG' ||
+        target.closest('button') ||
+        target.closest('.project-info')
+      ) return
       
       isMouseDown = true
       hasDragged = false
@@ -272,14 +262,14 @@ const projects = [
       if (e.key === "Escape") {
         if (previewImage) {
           closeImagePreview()
-        } else {
+        } else if (activeProject) {
           closeModal()
         }
       }
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [previewImage])
+  }, [previewImage, activeProject])
 
   // Image preview functions
   const openImagePreview = (imageSrc) => {
@@ -396,7 +386,7 @@ const projects = [
                       />
                       
                       {/* Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
                       
                       {/* Zoom Icon Hint */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -423,7 +413,7 @@ const projects = [
                     </div>
 
                     {/* Project Info */}
-                    <div className="p-6 md:p-10 flex flex-col justify-center">
+                    <div className="project-info p-6 md:p-10 flex flex-col justify-center cursor-default">
                       <h3 className="text-2xl md:text-5xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-500 mb-3 md:mb-4">
                         {project.name}
                       </h3>
@@ -447,7 +437,7 @@ const projects = [
                         </div>
                         <button
                           onClick={() => setActiveProject(project)}
-                          className="ml-auto px-4 py-2 md:px-6 md:py-2.5 rounded-xl bg-gradient-to-r from-yellow-500/80 to-amber-600/80 hover:from-yellow-400 hover:to-amber-500 text-white text-xs md:text-sm font-semibold shadow-lg group-hover:shadow-yellow-500/30 transition-all duration-300 hover:scale-105"
+                          className="ml-auto px-4 py-2 md:px-6 md:py-2.5 rounded-xl bg-gradient-to-r from-yellow-500/80 to-amber-600/80 hover:from-yellow-400 hover:to-amber-500 text-white text-xs md:text-sm font-semibold shadow-lg group-hover:shadow-yellow-500/30 transition-all duration-300 hover:scale-105 cursor-pointer"
                         >
                           View Details
                         </button>
