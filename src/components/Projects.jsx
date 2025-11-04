@@ -81,7 +81,7 @@ const Projects = () => {
   const prevSlide = () => goToSlide(currentIndex === 0 ? projects.length - 1 : currentIndex - 1)
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 9000)
+    const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
   }, [currentIndex])
 
@@ -233,13 +233,13 @@ const Projects = () => {
 
                     {/* IMAGE COLUMN – FULL IMAGE (NO CROPPING) */}
                     <div
-                      className="relative h-64 md:h-full bg-slate-900 cursor-pointer overflow-hidden transition-transform duration-700 group-hover:scale-105 transform-gpu"
+                      className="relative h-auto md:h-full bg-slate-900 cursor-pointer overflow-hidden transition-transform duration-700 group-hover:scale-105 transform-gpu"
                       onClick={() => openImagePreview(project.image)}
                     >
                       <img
                         src={project.image}
                         alt={project.name}
-                        className="absolute inset-0 w-full h-full object-contain select-none"
+                        className="w-full h-full object-contain select-none"
                         draggable="false"
                       />
 
@@ -393,13 +393,13 @@ const Projects = () => {
                 {activeProject.images.map((img, idx) => (
                   <div
                     key={idx}
-                    className="snap-center flex-shrink-0 w-full max-w-[90vw] md:max-w-md h-64 md:h-72 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
+                    className="snap-center flex-shrink-0 w-full max-w-[90vw] md:max-w-md h-auto rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
                     onClick={() => openImagePreview(img)}
                   >
                     <img 
                       src={img} 
                       alt={`${activeProject.name} screenshot ${idx + 1}`} 
-                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 select-none" 
+                      className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105 select-none" 
                       draggable="false" 
                     />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px] pointer-events-none">
