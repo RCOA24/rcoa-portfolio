@@ -49,7 +49,7 @@ const Projects = () => {
         "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
       images: ["/images/ProjectImages/Striven/StrivenLaptopLandscape.png", "/images/ProjectImages/Striven/StrivenIpadLandscape.png", "/images/ProjectImages/Striven/StrivenCP.png"],
       category: "Fitness & Health",
-      status: "development", // ← This triggers the badge
+      status: "development",
     },
   ]
 
@@ -81,7 +81,7 @@ const Projects = () => {
   const prevSlide = () => goToSlide(currentIndex === 0 ? projects.length - 1 : currentIndex - 1)
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000)
+    const interval = setInterval(nextSlide, 8000)
     return () => clearInterval(interval)
   }, [currentIndex])
 
@@ -246,10 +246,8 @@ const Projects = () => {
                         draggable="false"
                       />
 
-                      {/* subtle dark overlay on hover */}
                       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
 
-                      {/* zoom hint */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                         <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
                           <svg className="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,7 +296,8 @@ const Projects = () => {
                         {project.name}
                       </h3>
 
-                      <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-4 md:mb-6 max-h-[10rem] md:max-h-[12rem] overflow-y-auto pr-2">
+                      {/* FULL DESCRIPTION — NO SCROLLBAR */}
+                      <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-4 md:mb-6">
                         {project.description}
                       </p>
 
@@ -330,7 +329,7 @@ const Projects = () => {
             ))}
           </div>
 
-          {/* Navigation Arrows */}
+          {/* arrows */}
           <button
             onClick={(e) => { e.stopPropagation(); prevSlide() }}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-20"
@@ -351,7 +350,7 @@ const Projects = () => {
           </button>
         </div>
 
-        {/* Dot Indicators */}
+        {/* dot indicators */}
         <div className="flex items-center justify-center gap-2 mt-6 md:mt-8">
           {projects.map((_, i) => (
             <button
@@ -376,7 +375,6 @@ const Projects = () => {
               {activeProject.name}
             </h3>
 
-            {/* Show status in modal too */}
             {activeProject.status === "development" && (
               <div className="mb-4">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black text-sm font-bold shadow-md">
