@@ -128,11 +128,11 @@ export default function VideoScrollHero() {
           </h1>
 
           <p
-            ref={awardRef}
-            className="text-xl sm:text-2xl md:text-2xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide"
-          >
-            Delivering innovative digital solutions
-          </p>
+        ref={awardRef}
+        className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide whitespace-nowrap overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      >
+        Delivering innovative digital solutions
+      </p>
         </div>
       </section>
 
