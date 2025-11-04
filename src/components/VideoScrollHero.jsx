@@ -127,12 +127,23 @@ export default function VideoScrollHero() {
             />
           </h1>
 
-          <p
-        ref={awardRef}
-        className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide whitespace-nowrap overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-      >
-        Delivering innovative digital solutions
-      </p>
+        <p
+  ref={awardRef}
+  className="
+    /* Base mobile size - tiny enough to fit */
+    text-lg               /* 1.125rem ≈ 18px */
+    xs:text-xl            /* 1.25rem  ≈ 20px  (≥360px) */
+    sm:text-2xl           /* 1.5rem   ≈ 24px  (≥640px) */
+    md:text-3xl           /* 1.875rem ≈ 30px  (≥768px) */
+    lg:text-4xl           /* 2.25rem  ≈ 36px  (≥1024px) */
+
+    opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide
+    whitespace-nowrap overflow-x-auto
+    [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
+  "
+>
+  Delivering innovative digital solutions
+</p>
         </div>
       </section>
 
