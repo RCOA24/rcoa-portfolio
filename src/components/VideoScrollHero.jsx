@@ -166,7 +166,7 @@ export default function VideoScrollHero() {
 
           <p
             ref={awardRef}
-            className="text-base sm:text-xl md:text-2xl lg:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide px-4 max-w-full"
+            className="text-base sm:text-xl md:text-2xl lg:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide px-2 max-w-full"
           >
             Delivering innovative digital solutions
           </p>
