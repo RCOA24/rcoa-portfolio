@@ -131,7 +131,7 @@ export default function VideoScrollHero() {
             ref={awardRef}
             className="text-xl sm:text-2xl md:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide"
           >
-            Delivering innovative and recognized digital solutions
+            Delivering innovative digital solutions
           </p>
         </div>
       </section>
