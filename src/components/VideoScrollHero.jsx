@@ -175,9 +175,6 @@ const Projects = () => {
   useEffect(() => {
     if (activeProject) {
       gsap.fromTo(modalRef.current, { opacity: 0, y: 100, scale: .95 }, { opacity: 1, y: 0, scale: 1, duration: .5, ease: "power3.out" })
-      if (galleryRef.current) {
-        gsap.fromTo(galleryRef.current.children, { opacity: 0, x: 50 }, { opacity: 1, x: 0, stagger: .15, delay: .3, duration: .5, ease: "power2.out" })
-      }
     }
   }, [activeProject])
 
@@ -386,26 +383,62 @@ const Projects = () => {
               </div>
             )}
 
-            <div ref={galleryRef} className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb--6 snap-x snap-mandatory px-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "default" }}>
-              {activeProject.images.map((img, idx) => (
-                <div
-                  key={idx}
-                  className="snap-center flex-shrink-0 w-72 md:w-80 h-48 md:h-56 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
-                  onClick={() => openImagePreview(img)}
-                >
-                  <img src={img} alt={`${activeProject.name} screenshot ${idx + 1}`} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 select-none" draggable="false" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px] pointer-events-none">
-                    <div className="w-12 h-12 rounded-full bg-yellow-500/20 backdrop-blur-md border border-yellow-400/30 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                      </svg>
+            {/* MODAL GALLERY – CAROUSEL WITH DRAG & ARROWS */}
+            <div className="relative mb-6">
+              <div 
+                ref={galleryRef}
+                className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth gap-3 md:gap-4 px-2"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch", cursor: "grab" }}
+              >
+                {activeProject.images.map((img, idx) => (
+                  <div
+                    key={idx}
+                    className="snap-center flex-shrink-0 w-full max-w-sm md:max-w-md h-64 md:h-72 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
+                    onClick={() => openImagePreview(img)}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`${activeProject.name} screenshot ${idx + 1}`} 
+                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 select-none" 
+                      draggable="false" 
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px] pointer-events-none">
+                      <div className="w-14 h-14 rounded-full bg-yellow-500/20 backdrop-blur-md border border-yellow-400/30 flex items-center justify-center">
+                        <svg className="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* Desktop Arrows */}
+              {activeProject.images.length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); galleryRef.current.scrollBy({ left: -300, behavior: 'smooth' }) }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800/60 backdrop-blur-md border border-slate-600/50 text-white hover:bg-slate-700 transition-all duration-300 hidden md:flex items-center justify-center shadow-lg"
+                    aria-label="Previous image"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); galleryRef.current.scrollBy({ left: 300, behavior: 'smooth' }) }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-800/60 backdrop-blur-md border border-slate-600/50 text-white hover:bg-slate-700 transition-all duration-300 hidden md:flex items-center justify-center shadow-lg"
+                    aria-label="Next image"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
             </div>
 
-            <div className="text-left max-w-2xl mx-auto">
+            <div className="text-left max-w-2xl mx-auto mt-6">
               <p className="text-slate-300 text-sm md:text-base mb-4 md:mb-6 leading-relaxed">{activeProject.description}</p>
               <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                 {activeProject.tech.map(t => (
@@ -433,23 +466,32 @@ const Projects = () => {
         </div>
       )}
 
-      {/* -------------------------- IMAGE PREVIEW -------------------------- */}
+      {/* -------------------------- IMAGE PREVIEW (LARGE) -------------------------- */}
       {previewImage && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-lg p-4 md:p-8" onClick={closeImagePreview}>
-          <div ref={imagePreviewRef} className="relative max-w-7xl max-h-[95vh] w-full h-full flex items-center justify-center" onClick={e => e.stopPropagation()}>
-            <button onClick={closeImagePreview} className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer" aria-label="Close preview">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div ref={imagePreviewRef} className="relative w-full h-full flex items-center justify-center" onClick={e => e.stopPropagation()}>
+            <button 
+              onClick={closeImagePreview} 
+              className="absolute top-4 right-4 z-10 w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer"
+              aria-label="Close preview"
+            >
+              <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-            <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-4 max-w-full max-h-full">
-              <img src={previewImage} alt="Full preview" className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl select-none" draggable="false" />
+            <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-3 md:p-6 w-full h-full flex items-center justify-center">
+              <img 
+                src={previewImage} 
+                alt="Full preview" 
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl select-none" 
+                draggable="false" 
+              />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-500/5 via-transparent to-amber-500/5 pointer-events-none"></div>
             </div>
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-slate-300 text-sm font-medium pointer-events-none">
-              Click anywhere to close
+              Tap to close
             </div>
           </div>
         </div>
