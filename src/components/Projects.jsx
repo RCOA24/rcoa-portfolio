@@ -490,9 +490,7 @@ const Projects = () => {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-500/5 via-transparent to-amber-500/5 pointer-events-none"></div>
             </div>
 
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-slate-300 text-sm font-medium pointer-events-none">
-              Tap to close
-            </div>
+           
           </div>
         </div>
       )}
