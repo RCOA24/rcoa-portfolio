@@ -383,7 +383,7 @@ const Projects = () => {
               </div>
             )}
 
-            {/* MODAL GALLERY – CAROUSEL WITH DRAG & ARROWS */}
+            {/* MODAL GALLERY – BIG ON MOBILE */}
             <div className="relative mb-6">
               <div 
                 ref={galleryRef}
@@ -393,7 +393,7 @@ const Projects = () => {
                 {activeProject.images.map((img, idx) => (
                   <div
                     key={idx}
-                    className="snap-center flex-shrink-0 w-full max-w-sm md:max-w-md h-64 md:h-72 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
+                    className="snap-center flex-shrink-0 w-full max-w-[90vw] md:max-w-md h-64 md:h-72 rounded-2xl overflow-hidden border border-slate-700/60 hover:border-yellow-500/50 transition-all duration-300 bg-slate-900/50 group cursor-pointer relative"
                     onClick={() => openImagePreview(img)}
                   >
                     <img 
@@ -413,7 +413,7 @@ const Projects = () => {
                 ))}
               </div>
 
-              {/* Desktop Arrows */}
+              {/* Desktop arrows */}
               {activeProject.images.length > 1 && (
                 <>
                   <button
