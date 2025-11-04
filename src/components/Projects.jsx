@@ -49,6 +49,7 @@ const Projects = () => {
         "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
       images: ["/images/ProjectImages/Striven/StrivenLaptopLandscape.png", "/images/ProjectImages/Striven/StrivenIpadLandscape.png", "/images/ProjectImages/Striven/StrivenCP.png"],
       category: "Fitness & Health",
+      status: "development", // ← This triggers the badge
     },
   ]
 
@@ -231,9 +232,9 @@ const Projects = () => {
               <div key={project.name} className="flex-shrink-0 w-full snap-center px-2 md:px-4">
                 {/* CARD */}
                 <div className="group rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl h-full">
-                  <div className="grid md:grid-cols-2 gap-0 h-full md:min-h-[24rem]">
+                  <div className="grid md:grid-cols-2 gap-0 h-full md:min-h-[24rem] relative">
 
-                    {/* IMAGE COLUMN – smooth hover scale */}
+                    {/* IMAGE COLUMN */}
                     <div
                       className="relative h-64 md:h-full bg-slate-900 cursor-pointer overflow-hidden transition-transform duration-700 group-hover:scale-105 transform-gpu"
                       onClick={() => openImagePreview(project.image)}
@@ -257,12 +258,33 @@ const Projects = () => {
                         </div>
                       </div>
 
-                      {/* badges */}
+                      {/* Category Badge */}
                       <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none">
                         <span className="px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-semibold border border-white/20">
                           {project.category}
                         </span>
                       </div>
+
+                      {/* IN DEVELOPMENT BADGE */}
+                      {project.status === "development" && (
+                        <div 
+                          className="absolute top-4 right-4 md:top-6 md:right-6 z-20"
+                          aria-label="This project is in active development"
+                        >
+                          <div className="relative group/badge">
+                            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full blur-md opacity-70 group-hover/badge:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                            <span className="relative px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-bold text-black bg-gradient-to-r from-yellow-300 to-amber-400 rounded-full shadow-lg border border-yellow-200/50 backdrop-blur-sm flex items-center gap-1.5">
+                              <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-600 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                              </span>
+                              In Development
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Project Number */}
                       <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-10 pointer-events-none">
                         <div className="text-white/40 text-5xl md:text-7xl font-black leading-none group-hover:text-white/60 transition-colors duration-500 select-none">
                           {String(i + 1).padStart(2, "0")}
@@ -308,7 +330,7 @@ const Projects = () => {
             ))}
           </div>
 
-          {/* arrows */}
+          {/* Navigation Arrows */}
           <button
             onClick={(e) => { e.stopPropagation(); prevSlide() }}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/50 text-white hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 flex items-center justify-center shadow-xl hover:scale-110 z-20"
@@ -329,7 +351,7 @@ const Projects = () => {
           </button>
         </div>
 
-        {/* dot indicators */}
+        {/* Dot Indicators */}
         <div className="flex items-center justify-center gap-2 mt-6 md:mt-8">
           {projects.map((_, i) => (
             <button
@@ -353,6 +375,19 @@ const Projects = () => {
             <h3 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
               {activeProject.name}
             </h3>
+
+            {/* Show status in modal too */}
+            {activeProject.status === "development" && (
+              <div className="mb-4">
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-black text-sm font-bold shadow-md">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-600 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                  </span>
+                  In Active Development
+                </span>
+              </div>
+            )}
 
             <div ref={galleryRef} className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb-6 snap-x snap-mandatory px-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "default" }}>
               {activeProject.images.map((img, idx) => (
