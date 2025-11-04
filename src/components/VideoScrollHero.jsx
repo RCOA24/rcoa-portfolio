@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
@@ -11,47 +11,61 @@ gsap.registerPlugin(ScrollTrigger);
 export default function VideoScrollHero() {
   const headerRef = useRef(null);
   const awardRef = useRef(null);
+  const textTypeRef = useRef(null);
+  const hasAnimated = useRef(false);
+  const hasTypingCompleted = useRef(false);
+  const [showStaticText, setShowStaticText] = useState(false);
 
   useEffect(() => {
     const header = headerRef.current;
 
     // Smoother fade + move Hero as you scroll down
-    gsap.to(header, {
+    const headerScrollTrigger = gsap.to(header, {
       opacity: 0,
       y: -100,
       scrollTrigger: {
         trigger: header,
         start: "top top",
         end: "bottom top+=300",
-        scrub: 0.5, // Reduced scrub for smoother animation
+        scrub: 0.5,
         invalidateOnRefresh: true,
       },
     });
 
-    // --- Award-winning paragraph animation (letter-by-letter) ---
+    // Award text: Animate once on enter, then stay in final state
     const splitAward = new SplitType(awardRef.current, { types: "chars" });
-
     splitAward.chars.forEach((char) => char.classList.add("inline-block"));
 
-    // Animate letters in
-    gsap.from(splitAward.chars, {
+    const awardTl = gsap.timeline({ paused: true });
+
+    awardTl.from(splitAward.chars, {
       opacity: 0,
       y: 20,
       stagger: 0.05,
       duration: 0.8,
       ease: "power3.out",
-      onComplete: () => {
-        // After animation, glow gold once
-        gsap.to(splitAward.chars, {
-          color: "#FFD700",
-          textShadow: "0 0 12px #FFD700, 0 0 24px #FFD700",
-          duration: 1,
-          ease: "power2.out",
-        });
+    }).to(splitAward.chars, {
+      color: "#FFD700",
+      textShadow: "0 0 12px #FFD700, 0 0 24px #FFD700",
+      duration: 1,
+      ease: "power2.out",
+    }, "-=0.6");
+
+    ScrollTrigger.create({
+      trigger: awardRef.current,
+      start: "top 85%",
+      end: "bottom 20%",
+      onEnter: () => {
+        if (!hasAnimated.current) {
+          awardTl.play();
+          hasAnimated.current = true;
+        }
       },
+      toggleActions: "none none none none",
+      invalidateOnRefresh: true,
     });
 
-    // ScrollStack items animation with better mobile support
+    // ScrollStack items
     gsap.utils.toArray(".scroll-card").forEach((item) => {
       gsap.fromTo(
         item,
@@ -65,23 +79,38 @@ export default function VideoScrollHero() {
             trigger: item,
             start: "top 80%",
             end: "top 20%",
-            toggleActions: "play reverse play reverse", // Animates both ways
+            toggleActions: "play reverse play reverse",
             invalidateOnRefresh: true,
           },
         }
       );
     });
 
-    // Refresh ScrollTrigger on resize for responsive behavior
+    // Timer to switch to static text after typing completes
+    const typingTimer = setTimeout(() => {
+      if (!hasTypingCompleted.current) {
+        hasTypingCompleted.current = true;
+        setShowStaticText(true);
+      }
+    }, 2500); // Adjust based on your typing speed
+
     const handleResize = () => {
-      ScrollTrigger.refresh();
+      ScrollTrigger.refresh(true);
     };
     
     window.addEventListener("resize", handleResize);
+    ScrollTrigger.refresh(true);
 
     return () => {
+      clearTimeout(typingTimer);
       window.removeEventListener("resize", handleResize);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (splitAward) {
+        splitAward.revert();
+      }
+      awardTl.kill();
+      hasAnimated.current = false;
+      hasTypingCompleted.current = false;
     };
   }, []);
 
@@ -116,34 +145,31 @@ export default function VideoScrollHero() {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold mb-10 leading-[1.1] drop-shadow-2xl tracking-tight">
-            <TextType
-              text={["Full Stack Developer"]}
-              typingSpeed={70}
-              pauseDuration={1500}
-              showCursor={true}
-              cursorCharacter="|"
-              startOnVisible={true}
-            />
+          <h1 
+            ref={textTypeRef}
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold mb-10 leading-[1.1] drop-shadow-2xl tracking-tight"
+          >
+            {showStaticText ? (
+              <span>Full Stack Developer</span>
+            ) : (
+              <TextType
+                text={["Full Stack Developer"]}
+                typingSpeed={70}
+                pauseDuration={1500}
+                showCursor={true}
+                cursorCharacter="|"
+                startOnVisible={true}
+                loop={false}
+              />
+            )}
           </h1>
 
-        <p
-  ref={awardRef}
-  className="
-    /* Base mobile size - tiny enough to fit */
-    text-lg               /* 1.125rem ≈ 18px */
-    xs:text-xl            /* 1.25rem  ≈ 20px  (≥360px) */
-    sm:text-2xl           /* 1.5rem   ≈ 24px  (≥640px) */
-    md:text-3xl           /* 1.875rem ≈ 30px  (≥768px) */
-    lg:text-4xl           /* 2.25rem  ≈ 36px  (≥1024px) */
-
-    opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide
-    whitespace-nowrap overflow-x-auto
-    [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
-  "
->
-  Delivering innovative digital solutions
-</p>
+          <p
+            ref={awardRef}
+            className="text-base sm:text-xl md:text-2xl lg:text-4xl opacity-90 mb-12 drop-shadow-2xl font-light tracking-wide px-4 max-w-full"
+          >
+            Delivering innovative digital solutions
+          </p>
         </div>
       </section>
 
