@@ -81,7 +81,7 @@ const Projects = () => {
   const prevSlide = () => goToSlide(currentIndex === 0 ? projects.length - 1 : currentIndex - 1)
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000)
+    const interval = setInterval(nextSlide, 9000)
     return () => clearInterval(interval)
   }, [currentIndex])
 
@@ -234,7 +234,7 @@ const Projects = () => {
                 <div className="group rounded-2xl md:rounded-3xl border border-slate-800/50 bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-950/60 backdrop-blur-2xl hover:border-slate-600/80 transition-all duration-700 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] mx-auto max-w-5xl h-full">
                   <div className="grid md:grid-cols-2 gap-0 h-full md:min-h-[24rem] relative">
 
-                    {/* IMAGE COLUMN – full image + safe link badge */}
+                    {/* IMAGE COLUMN – FULL IMAGE (NO CROPPING) */}
                     <div
                       className="relative h-64 md:h-full bg-slate-900 cursor-pointer overflow-hidden transition-transform duration-700 group-hover:scale-105 transform-gpu"
                       onClick={() => openImagePreview(project.image)}
@@ -242,7 +242,7 @@ const Projects = () => {
                       <img
                         src={project.image}
                         alt={project.name}
-                        className="absolute inset-0 w-full h-full object-cover select-none"
+                        className="absolute inset-0 w-full h-full object-contain select-none"
                         draggable="false"
                       />
 
@@ -281,22 +281,6 @@ const Projects = () => {
                           </div>
                         </div>
                       )}
-
-                      {/* NEW: Live Link Badge – Always Visible */}
-                      <div className="absolute bottom-3 left-3 md:bottom-6 md:left-6 z-10">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-white text-xs font-medium border border-white/20 hover:bg-white/20 transition-all duration-300 pointer-events-auto"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                          <span className="truncate max-w-32 md:max-w-48">{project.link.replace(/^https?:\/\//, '')}</span>
-                        </a>
-                      </div>
 
                       {/* Project Number */}
                       <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-10 pointer-events-none">
@@ -402,7 +386,7 @@ const Projects = () => {
               </div>
             )}
 
-            <div ref={galleryRef} className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb-6 snap-x snap-mandatory px-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "default" }}>
+            <div ref={galleryRef} className="flex gap-4 overflow-x-auto no-scrollbar mb-4 md:mb--6 snap-x snap-mandatory px-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "default" }}>
               {activeProject.images.map((img, idx) => (
                 <div
                   key={idx}
