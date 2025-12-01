@@ -132,7 +132,7 @@ const Footer = () => {
               Rodney Austria
             </h3>
             <p className="text-slate-500 text-xs uppercase tracking-widest font-medium">
-              Turning Data into Decisions
+              Transforming bold concepts into seamless digital solutions
             </p>
           </div>
 
