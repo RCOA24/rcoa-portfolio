@@ -49,7 +49,31 @@ const Projects = () => {
         "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
       images: ["/images/ProjectImages/Striven/StrivenLaptopLandscape.png", "/images/ProjectImages/Striven/StrivenIpadLandscape.png", "/images/ProjectImages/Striven/StrivenCP.png"],
       category: "Fitness & Health",
-      status: "development",
+      //status: "development",
+    },
+    {
+      name: "Odecci Solutions Internship Projects",
+      image: "/images/ProjectImages/Odecci/OdecciThumbnail.png",
+      tech: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS","REST APIs", "Swagger", "Postman", "Git", "GitHub", "Agile Methodologies", "SASS", "SCSS"],
+      metrics: "Initial Development Ownership",
+      link: "https://striven.netlify.app/",
+      description:
+        "Led front-end development for Odecci CRM (Laravel/Blade), EMS dashboards (profiles, schedules, tasks), API integrations, testing, interactive HTML marketing email, and SCSS quotation templates—ensuring responsive UI/UX, seamless data flow, and team collaboration across full SDLC.",
+      images: ["/images/ProjectImages/Odecci/OdecciCRMLogin.png", "/images/ProjectImages/Odecci/DashboardCRM.png", "/images/ProjectImages/Odecci/Leads.png","/images/ProjectImages/Odecci/Task.png","/images/ProjectImages/Odecci/LeadDeal.png","/images/ProjectImages/Odecci/EmailPrototypeMarketing.png","/images/ProjectImages/Odecci/QuotationPaper.png"],
+      category: "Internship",
+      
+    },
+    {
+      name: "STC - Packaging Solutions Analytics Dashboard",
+      image: "/images/ProjectImages/Striven/StrivenThumbnail.png",
+      tech: ["Power BI Desktop", "DAX", "Data Modeling", "Data Visualization", "ETL", "Excel", "SQL"],
+      metrics: "Live",
+      link: "https://striven.netlify.app/",
+      description:
+        "A manufacturing analytics dashboard built in Power BI Desktop to monitor production, quality, inventory, and sales performance. Features interactive filters, trend and variance analysis, inventory health monitoring, and efficiency vs. defect insights for data-driven decision-making.",
+      images: ["/images/ProjectImages/PowerBIDashboard/Home.png", "/images/ProjectImages/PowerBIDashboard/Inventory.png", "/images/ProjectImages/PowerBIDashboard/Line.png","/images/ProjectImages/PowerBIDashboard/Production.png"],
+      category: "Business Intelligence & Analytics",
+      
     },
   ]
 
@@ -79,11 +103,6 @@ const Projects = () => {
 
   const nextSlide = () => goToSlide((currentIndex + 1) % projects.length)
   const prevSlide = () => goToSlide(currentIndex === 0 ? projects.length - 1 : currentIndex - 1)
-
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 9000)
-    return () => clearInterval(interval)
-  }, [currentIndex])
 
   /* ------------------- drag / swipe handling -------------------- */
   useEffect(() => {
@@ -469,28 +488,26 @@ const Projects = () => {
       {/* -------------------------- IMAGE PREVIEW (LARGE) -------------------------- */}
       {previewImage && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-lg p-4 md:p-8" onClick={closeImagePreview}>
-          <div ref={imagePreviewRef} className="relative w-full h-full flex items-center justify-center" onClick={e => e.stopPropagation()}>
-            <button 
-              onClick={closeImagePreview} 
-              className="absolute top-4 right-4 z-10 w-14 h-14 md:w-16 md:h-16 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer"
-              aria-label="Close preview"
-            >
-              <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
+          <button 
+            onClick={closeImagePreview} 
+            className="fixed top-4 right-4 md:top-6 md:right-6 z-[70] w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-900/90 backdrop-blur-md border-2 border-slate-700/70 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer"
+            aria-label="Close preview"
+          >
+            <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <div ref={imagePreviewRef} className="relative w-full h-full max-w-7xl max-h-[90vh] flex items-center justify-center" onClick={e => e.stopPropagation()}>
             <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-3 md:p-6 w-full h-full flex items-center justify-center">
               <img 
                 src={previewImage} 
                 alt="Full preview" 
-                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl select-none" 
+                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none" 
                 draggable="false" 
               />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-500/5 via-transparent to-amber-500/5 pointer-events-none"></div>
             </div>
-
-           
           </div>
         </div>
       )}
