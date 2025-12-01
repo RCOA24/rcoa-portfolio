@@ -65,10 +65,10 @@ const Projects = () => {
     },
     {
       name: "STC - Packaging Solutions Analytics Dashboard",
-      image: "/images/ProjectImages/Striven/StrivenThumbnail.png",
+      image: "/images/ProjectImages/PowerBIDashboard/STCThumbnail.png",
       tech: ["Power BI Desktop", "DAX", "Data Modeling", "Data Visualization", "ETL", "Excel", "SQL"],
       metrics: "Live",
-      link: "https://striven.netlify.app/",
+      link: "https://app.powerbi.com/groups/me/reports/78cf85e4-c05a-4dd2-973d-7ef3ef0fac99/ff470f65342056c7e130?experience=power-bi",
       description:
         "A manufacturing analytics dashboard built in Power BI Desktop to monitor production, quality, inventory, and sales performance. Features interactive filters, trend and variance analysis, inventory health monitoring, and efficiency vs. defect insights for data-driven decision-making.",
       images: ["/images/ProjectImages/PowerBIDashboard/Home.png", "/images/ProjectImages/PowerBIDashboard/Inventory.png", "/images/ProjectImages/PowerBIDashboard/Line.png","/images/ProjectImages/PowerBIDashboard/Production.png"],
