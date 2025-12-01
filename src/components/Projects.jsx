@@ -47,7 +47,7 @@ const Projects = () => {
       link: "https://striven.netlify.app/",
       description:
         "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
-      images: ["/images/ProjectImages/Striven/StrivenLaptopLandscape.png", "/images/ProjectImages/Striven/StrivenIpadLandscape.png", "/images/ProjectImages/Striven/StrivenCP.png"],
+      images: ["/images/ProjectImages/Striven/Dashboard.png", "/images/ProjectImages/Striven/Activity.png", "/images/ProjectImages/Striven/Stats.png", "/images/ProjectImages/Striven/ExerciseLibrary.png","/images/ProjectImages/Striven/EditPlanModal.png","/images/ProjectImages/Striven/AiFoodScanner.png","/images/ProjectImages/Striven/Favorites.png","/images/ProjectImages/Striven/Plan.png","/images/ProjectImages/Striven/Today.png"],
       category: "Fitness & Health",
       //status: "development",
     },
@@ -56,7 +56,7 @@ const Projects = () => {
       image: "/images/ProjectImages/Odecci/OdecciThumbnail.png",
       tech: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS","REST APIs", "Swagger", "Postman", "Git", "GitHub", "Agile Methodologies", "SASS", "SCSS"],
       metrics: "Initial Development Ownership",
-      link: "https://striven.netlify.app/",
+      link: "https://rcoa.netlify.app/",
       description:
         "Led front-end development for Odecci CRM (Laravel/Blade), EMS dashboards (profiles, schedules, tasks), API integrations, testing, interactive HTML marketing email, and SCSS quotation templates—ensuring responsive UI/UX, seamless data flow, and team collaboration across full SDLC.",
       images: ["/images/ProjectImages/Odecci/OdecciCRMLogin.png", "/images/ProjectImages/Odecci/DashboardCRM.png", "/images/ProjectImages/Odecci/Leads.png","/images/ProjectImages/Odecci/Task.png","/images/ProjectImages/Odecci/LeadDeal.png","/images/ProjectImages/Odecci/EmailPrototypeMarketing.png","/images/ProjectImages/Odecci/QuotationPaper.png"],
