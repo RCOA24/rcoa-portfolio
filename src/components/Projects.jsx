@@ -71,7 +71,7 @@ const Projects = () => {
       link: "https://app.powerbi.com/groups/me/reports/78cf85e4-c05a-4dd2-973d-7ef3ef0fac99/ff470f65342056c7e130?experience=power-bi",
       description:
         "A manufacturing analytics dashboard built in Power BI Desktop to monitor production, quality, inventory, and sales performance. Features interactive filters, trend and variance analysis, inventory health monitoring, and efficiency vs. defect insights for data-driven decision-making.",
-      images: ["/images/ProjectImages/PowerBIDashboard/Home.png", "/images/ProjectImages/PowerBIDashboard/Inventory.png", "/images/ProjectImages/PowerBIDashboard/Line.png","/images/ProjectImages/PowerBIDashboard/Production.png"],
+      images: ["/images/ProjectImages/PowerBIDashboard/Home.png","/images/ProjectImages/PowerBIDashboard/Production.png", "/images/ProjectImages/PowerBIDashboard/Inventory.png", "/images/ProjectImages/PowerBIDashboard/Line.png"],
       category: "Business Intelligence & Analytics",
       
     },
@@ -488,22 +488,24 @@ const Projects = () => {
       {/* -------------------------- IMAGE PREVIEW (LARGE) -------------------------- */}
       {previewImage && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-lg p-4 md:p-8" onClick={closeImagePreview}>
-          <button 
-            onClick={closeImagePreview} 
-            className="fixed top-4 right-4 md:top-6 md:right-6 z-[70] w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-900/90 backdrop-blur-md border-2 border-slate-700/70 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer"
-            aria-label="Close preview"
-          >
-            <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          
           <div ref={imagePreviewRef} className="relative w-full h-full max-w-7xl max-h-[90vh] flex items-center justify-center" onClick={e => e.stopPropagation()}>
-            <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-3 md:p-6 w-full h-full flex items-center justify-center">
+            <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-[0_0_80px_rgba(0,0,0,0.5)] bg-gradient-to-br from-slate-900 via-slate-950 to-black p-1 md:p-2 w-auto h-auto flex items-center justify-center max-w-full max-h-full">
+              
+              {/* CLOSE BUTTON - NOW INSIDE THE CONTAINER */}
+              <button 
+                onClick={closeImagePreview} 
+                className="absolute top-3 right-3 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white hover:bg-red-600 hover:border-red-500 transition-all duration-300 flex items-center justify-center shadow-2xl hover:scale-110 cursor-pointer"
+                aria-label="Close preview"
+              >
+                <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
               <img 
                 src={previewImage} 
                 alt="Full preview" 
-                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none" 
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl select-none" 
                 draggable="false" 
               />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-yellow-500/5 via-transparent to-amber-500/5 pointer-events-none"></div>
