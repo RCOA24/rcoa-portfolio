@@ -230,7 +230,7 @@ const About = () => {
   }, []);
 
   const handleResumeClick = () => {
-    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2025.pdf`, "_blank");
+    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2026.pdf`, "_blank");
   };
 
   const handleCertificatesClick = () => {

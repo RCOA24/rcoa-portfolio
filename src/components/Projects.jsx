@@ -40,17 +40,16 @@ const Projects = () => {
       category: "Enterprise Website Application", 
     },
     {
-      name: "Striven",
-      image: "/images/ProjectImages/Striven/StrivenThumbnail.png",
-      tech: ["React", "Dexie.js", "Vite", "Tailwind CSS", "IndexedDB", "PWA", "Capacitor", "Generic Sensor API", "WebRTC", "Cordova-Plugin-IosRTC", "AI Food Recognition API"],
-      metrics: "Live",
-      link: "https://striven.netlify.app/",
-      description:
-        "A modern, privacy-focused fitness step-tracking PWA built with React, Vite, and Tailwind CSS. Features real-time metrics, offline support, device sensor integration, and cross-platform installability. Expanding to include AI-assisted nutrition logging, exercise library, and planned native iOS/Android releases.",
-      images: ["/images/ProjectImages/Striven/Dashboard.png", "/images/ProjectImages/Striven/Activity.png", "/images/ProjectImages/Striven/Stats.png", "/images/ProjectImages/Striven/ExerciseLibrary.png","/images/ProjectImages/Striven/EditPlanModal.png","/images/ProjectImages/Striven/AiFoodScanner.png","/images/ProjectImages/Striven/Favorites.png","/images/ProjectImages/Striven/Plan.png","/images/ProjectImages/Striven/Today.png"],
-      category: "Fitness & Health",
-      //status: "development",
-    },
+  "name": "Striven: Full-Stack AI Fitness Platform",
+  "image": "/images/ProjectImages/Striven/StrivenThumbnail.png",
+  "tech": ["React", "Node.js (Supabase Edge)", "Vite", "Tailwind CSS", "Capacitor (Native Android)", "Supabase (Realtime + RLS)", "Dexie.js", "Google Gemini Vision AI", "Generic Sensor API", "Leaflet", "PWA", "Lighthouse 100"],
+  "metrics": "Live",
+  "link": "https://trystriven.netlify.app/",  // Marketing page w/ APK + demo video
+  "description": "Production fitness platform featuring Node.js Edge Functions powering Gemini Vision food scanner, Supabase realtime cross-platform leaderboards (PWA + Android), DeviceMotionEvent pedometer with Apple-style rings, AI nutrition coaching w/ safety warnings, workout organizer (1RM tracking), and hybrid Dexie.js/Supabase data architecture.",
+  "images": ["/images/ProjectImages/Striven/Dashboard.jpg", "/images/ProjectImages/Striven/Activity.png", "/images/ProjectImages/Striven/Stats.png", "/images/ProjectImages/Striven/ExerciseLibrary.png","/images/ProjectImages/Striven/EditPlanModal.png","/images/ProjectImages/Striven/AiFoodScanner.png","/images/ProjectImages/Striven/Favorites.png","/images/ProjectImages/Striven/Plan.png","/images/ProjectImages/Striven/Today.png"],
+  "category": "AI & Full-Stack",
+  "github": "https://github.com/RCOA24/Striven"
+},
     {
       name: "Odecci Solutions Internship Projects",
       image: "/images/ProjectImages/Odecci/OdecciThumbnail.png",
