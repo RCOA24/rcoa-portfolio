@@ -230,11 +230,11 @@ const About = () => {
   }, []);
 
   const handleResumeClick = () => {
-    window.open(`${import.meta.env.BASE_URL}Rodney_Austria_Resume_2026.pdf`, "_blank");
+    window.open(`${import.meta.env.BASE_URL}Rodney_Charles_O_Austria_Resume_2026.pdf`, "_blank");
   };
 
   const handleCertificatesClick = () => {
-    window.open(`${import.meta.env.BASE_URL}Scan_Copy_of_Certificates_2025.pdf`, "_blank");
+    window.open(`${import.meta.env.BASE_URL}Scan_Copy_of_Certificates_2026.pdf`, "_blank");
   };
 
   return (
