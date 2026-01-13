@@ -287,7 +287,7 @@ const About = () => {
             className="space-y-8 text-xl md:text-2xl font-light leading-relaxed text-zinc-300 text-justify"
           >
             <p>
-              I'm a Front-End Developer passionate about building responsive,
+              I'm a Full-Stack Developer passionate about building responsive,
               scalable web applications with clean, maintainable code. Every
               feature designed with purpose and precision.
             </p>

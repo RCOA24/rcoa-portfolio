@@ -150,7 +150,7 @@ export default function VideoScrollHero() {
             className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-extrabold mb-10 leading-[1.1] drop-shadow-2xl tracking-tight"
           >
             {showStaticText ? (
-              <span>Front-End Developer</span>
+              <span>Full-Stack Developer</span>
             ) : (
               <TextType
                 text={["Front-End Developer"]}
