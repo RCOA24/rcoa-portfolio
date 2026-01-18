@@ -17,129 +17,83 @@ This is the professional portfolio website of Rodney Charles O. Austria (RCOA), 
 
 Detail-oriented Full Stack Web Developer with proven experience at Odecci Solutions Inc. and multiple successful freelance projects. BS Information Technology graduate from STI College Balagtas, specializing in:
 
-- **Back-End Development:** Laravel, PHP, RESTful APIs
-- **Front-End Development:** React, JavaScript, HTML5, CSS3, Tailwind CSS, GSAP
-- **Full Stack:** TALL Stack (Tailwind, Alpine.js, Laravel, Livewire)
-- **Database Management:** MySQL, MSSQL
-- **Specializations:** CRM Systems, Government Management Systems, API Integration
+# RCOA Portfolio
 
-## ✨ Features
+> Professional Full Stack Web Developer Portfolio — Rodney Charles O. Austria
 
-- **Responsive Design:** Optimized for all devices (mobile, tablet, desktop)
-- **Modern UI/UX:** Clean, professional interface with smooth animations
-- **SEO Optimized:** Enhanced visibility with comprehensive meta tags and structured data
-- **Performance Focused:** Fast loading times and optimized assets
+## 🌐 Live Demo
 
-## 📂 Project Structure
+**Visit:** [![Live Site](https://img.shields.io/badge/Live-rcoa.netlify.app-success)](https://rcoa.netlify.app)
 
-```
-rcoa-portfolio/
-├── public/
-│   ├── index.html
-│   ├── favicon.ico
-│   └── assets/
-│       ├── images/
-│       └── icons/
-├── src/
-│   ├── components/
-│   ├── styles/
-│   ├── utils/
-│   ├── App.js
-│   └── index.js
-├── package.json
-├── README.md
-└── netlify.toml
-```
+## 📖 About
 
-## 🛠️ Installation & Setup
+This is the professional portfolio of **Rodney Charles O. Austria**, a detail-oriented Full-Stack Web Developer from Guiguinto, Bulacan, Philippines. Rodney recently graduated with a BS in Information Technology and specializes in building responsive web applications, API integrations, and full-stack solutions.
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-- Git
+## 👨‍💻 Summary
 
-### Clone the Repository
+Detail-oriented recent graduate skilled in front-end and back-end web development, specializing in responsive applications and RESTful API integration. Seeking to deliver innovative solutions as a Full-Stack Web Developer.
 
-```bash
-git clone https://github.com/RCOA24/rcoa-portfolio.git
-cd rcoa-portfolio
-```
+**Location:** Guiguinto, Bulacan • **Email:** rodneycharlesaustria1124@gmail.com • **Phone:** 0921-716-7659
 
-### Install Dependencies
+## 🎓 Education
 
-```bash
-npm install
-# or
-yarn install
-```
+- **Bachelor of Science in Information Technology** — STI College Balagtas (June 27, 2025)
+- Thesis: Barangay Management Information System for Barangay Primero Borol
+- Awards: President’s Dean Lister (2021–2023)
 
-### Run Development Server
+## 💼 Experience
 
-```bash
-npm start
-# or
-yarn start
-```
+- **Odecci Solutions Inc. — Front-End Developer & Integration Engineer (Intern)**
+   - January 2025 – May 2025 (Guiguinto, Bulacan)
+   - Led front-end development for a modular, responsive CRM (TALL stack) including dashboards, contact/deal management, dynamic forms, RBAC, and secure authentication.
+   - Implemented Phase 1 of an Employee Management System (profiles, tasks, schedules, notes).
+   - Created responsive HTML marketing emails and a reusable quotation template (HTML/SCSS).
 
-The application will open at `http://localhost:3000`
+## 🛠️ Skills
 
-### Build for Production
+**Programming:** JavaScript (ES6+), TypeScript, PHP, Java (JSE), C# (.NET), SQL
 
-```bash
-npm run build
-# or
-yarn build
-```
+**Front-End:** HTML5, CSS3, React, Next.js, Redux, Tailwind CSS, Bootstrap, Livewire, Sass/SCSS
 
-## 🌍 Deployment
+**Back-End:** PHP (Laravel), PostgreSQL, MySQL, MSSQL, MongoDB, Node.js
 
-This portfolio is deployed on **Netlify** with continuous deployment from the GitHub repository.
+**API & Integration:** RESTful APIs, Postman, Google Gemini Vision AI, Twilio SMS, OAuth 2.0 PKCE
 
-### Deploy to Netlify
+**Cloud & DevOps:** Google Cloud Platform, Serverless (Supabase/Edge Functions), Docker, Git, CI/CD
 
-1. Fork or clone this repository
-2. Sign up for a [Netlify account](https://www.netlify.com/)
-3. Connect your GitHub repository
-4. Configure build settings:
-   - **Build command:** `npm run build`
-   - **Publish directory:** `build`
-5. Deploy!
+**Design & Tools:** Figma, Adobe Photoshop, Adobe Illustrator
 
-### Custom Domain Setup
+## 🔭 Highlighted Projects
 
-The portfolio is accessible at `rcoa.netlify.app`. To set up a custom domain:
-1. Go to Netlify Dashboard > Domain Settings
-2. Add your custom domain
-3. Configure DNS settings as instructed
+- **TyphoGuard — Disaster Response Platform** (Laravel, Alpine.js, Tailwind)
+   - Real-time environmental monitoring, multi-source API aggregation, geolocation services, and automated alerting.
 
-## 📧 Contact Information
+- **Barangay Management Information System** (CodeIgniter, MySQL, Twilio SMS)
+   - Local government platform with RBAC, resident database, automated services, and mapping tools.
 
-**Rodney Charles O. Austria**
-- 📧 Email: rodneycharlesaustria1124@gmail.com
-- 📱 Phone: 0921-716-7659
-- 🌐 Website: [rcoa.netlify.app](https://rcoa.netlify.app)
-- 💼 LinkedIn: [Connect with me](https://linkedin.com)
-- 🐙 GitHub: [@RCOA24](https://github.com/RCOA24)
+- **Striven — AI Fitness Platform** (React, Vite, Supabase, Google Gemini AI)
+   - Cross-platform PWA, serverless AI image processing, offline-first data sync, and native-capable mobile build via Capacitor.
 
-## 🤝 Available For
-- ✅ Freelance Projects
-- ✅ Contract Work
-- ✅ Remote Collaboration
-- ✅ On-site Consultations
-- ✅ Full-Time Opportunities
+- **Simply Stated — Blog Platform** (React, Vite, TypeScript, Supabase)
+   - Production-ready blog with RLS-backed serverless backend, advanced state management, and performance optimizations.
 
-## 📝 License
+## 🏅 Certifications & Awards
 
-This project is open source and available under the [MIT License](LICENSE).
+- Postman API Fundamentals Student Expert (2026)
+- DataCamp Certified SQL Associate (2026)
+- Data Analytics Essentials — Cisco Networking Academy (2025)
+- Career Essentials in Software Development — Microsoft/LinkedIn (2025)
+- MongoDB Node.JS Developer Path (2025)
+- Multiple hackathon placements and college awards (2024)
 
-## 🙏 Acknowledgments
+## 📧 Contact
 
-- Thanks to all clients and collaborators who have supported my journey
-- Special thanks to Odecci Solutions Inc. for the valuable experience
-- Gratitude to STI College Balagtas for the solid foundation in IT
+- **Email:** rodneycharlesaustria1124@gmail.com
+- **Phone:** 0921-716-7659
+- **Website:** https://rcoa.netlify.app
+- **GitHub:** https://github.com/RCOA24
+- **LinkedIn:** https://www.linkedin.com/in/rodney-austria-/
 
 ---
 
-**⭐ If you find this portfolio helpful, please consider giving it a star!**
-
-*Looking for a skilled Laravel developer, React specialist, or Full Stack Web Developer in the Philippines? Let's build something amazing together!*
+If you'd like any edits to this summary (tone, length, or specific highlights), tell me what to change and I will update `README.md` accordingly.
