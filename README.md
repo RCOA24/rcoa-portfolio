@@ -95,5 +95,3 @@ Detail-oriented recent graduate skilled in front-end and back-end web developmen
 - **LinkedIn:** https://www.linkedin.com/in/rodney-austria-/
 
 ---
-
-If you'd like any edits to this summary (tone, length, or specific highlights), tell me what to change and I will update `README.md` accordingly.
