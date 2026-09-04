@@ -113,7 +113,7 @@ export const featuredProjects = [
       'Compares two job offers and models 0–5 onsite days while reusing route previews to avoid unnecessary external API requests.',
     ],
     outcome:
-      'Built on Backboard category winner and 12th-place project at the CUTC: Transform Hackathon 2026.',
+      'Built on Backboard category winner and 12th-place out of 1000 projects at the CUTC: Transform Hackathon 2026.',
     technologies: ['Next.js', 'TypeScript', 'Geoapify', 'GTFS', 'MapLibre GL', 'OpenAI'],
     image: {
       src: '/images/ProjectImages/CommuteLens/CommuteLensDevpost.png',
@@ -124,7 +124,7 @@ export const featuredProjects = [
     submission: {
       platform: 'Devpost',
       event: 'CUTC: Transform Hackathon 2026',
-      context: 'Built on Backboard category winner · 12th place',
+      context: 'Built on Backboard category winner · 12th place out of 1000 projects · Published submission',
     },
     recognition: {
       label: 'Winner',
