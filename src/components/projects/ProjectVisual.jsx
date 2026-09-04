@@ -13,6 +13,12 @@ export default function ProjectVisual({ project }) {
             loading="lazy"
             decoding="async"
           />
+          {project.recognition && (
+            <span className={`project-award-ribbon project-award-ribbon-${project.recognition.tone}`} aria-hidden="true">
+              <strong>{project.recognition.label}</strong>
+              <small>{project.recognition.detail}</small>
+            </span>
+          )}
           {project.links.devpost && (
             <span className="project-preview-overlay" aria-hidden="true">
               View submission <ArrowIcon external />
@@ -40,7 +46,7 @@ export default function ProjectVisual({ project }) {
           href={project.links.devpost}
           target="_blank"
           rel="noreferrer"
-          aria-label={`View ${project.shortTitle} submission on Devpost`}
+          aria-label={`View ${project.shortTitle} submission on Devpost${project.recognition ? `. ${project.recognition.label}: ${project.recognition.detail}.` : ''}`}
         >
           {preview}
         </a>

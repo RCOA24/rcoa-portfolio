@@ -6,6 +6,10 @@ export const featuredRecognition = {
 }
 
 export const achievements = [
+  {
+    title: 'Built on Backboard Category Winner · 12th Place',
+    organization: 'CUTC: Transform Hackathon 2026 · Commute Lens',
+  },
   { title: '1st Runner Up — Mobile Hackathon', organization: 'STI College Balagtas' },
   { title: '1st Runner Up — Codefest', organization: 'STI College Balagtas' },
   { title: 'National IT Skills Competition — Python', organization: 'STI' },

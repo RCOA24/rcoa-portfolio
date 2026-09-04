@@ -11,7 +11,7 @@ export default function ProjectCaseStudy({ project, index }) {
   ].filter(Boolean)
 
   return (
-    <article className={`project-case project-case-${project.visual}`} aria-labelledby={`${project.slug}-title`}>
+    <article className={`project-case project-case-${project.visual}${project.recognition ? ' project-case-awarded' : ''}`} aria-labelledby={`${project.slug}-title`}>
       <div className="project-visual-column">
         <div className="project-index-row">
           <span className="project-index">{String(index + 1).padStart(2, '0')}</span>

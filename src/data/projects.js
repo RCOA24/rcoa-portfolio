@@ -46,6 +46,11 @@ export const featuredProjects = [
       event: 'OpenAI Build Week',
       context: 'Top 5 Manila finalist · Published submission',
     },
+    recognition: {
+      label: 'Top 5 Finalist',
+      detail: 'OpenAI Build Week Manila 2026',
+      tone: 'finalist',
+    },
     links: {
       devpost: 'https://devpost.com/software/healthbridge-zd5gnp',
       video: 'https://youtu.be/URhqjCVei0Y',
@@ -108,7 +113,7 @@ export const featuredProjects = [
       'Compares two job offers and models 0–5 onsite days while reusing route previews to avoid unnecessary external API requests.',
     ],
     outcome:
-      'Delivered a working end-to-end decision-support experience for the CUTC: Transform Hackathon 2026 without treating the tool as the decision-maker.',
+      'Built on Backboard category winner and 12th-place project at the CUTC: Transform Hackathon 2026.',
     technologies: ['Next.js', 'TypeScript', 'Geoapify', 'GTFS', 'MapLibre GL', 'OpenAI'],
     image: {
       src: '/images/ProjectImages/CommuteLens/CommuteLensDevpost.png',
@@ -119,7 +124,12 @@ export const featuredProjects = [
     submission: {
       platform: 'Devpost',
       event: 'CUTC: Transform Hackathon 2026',
-      context: 'Published hackathon submission',
+      context: 'Built on Backboard category winner · 12th place',
+    },
+    recognition: {
+      label: 'Winner',
+      detail: 'Built on Backboard',
+      tone: 'winner',
     },
     links: {
       devpost: 'https://devpost.com/software/commute-lens',
@@ -127,7 +137,7 @@ export const featuredProjects = [
       video: 'https://www.youtube.com/watch?v=f5NNQpqlPmI&t=1s',
     },
     featured: false,
-    status: 'CUTC Hackathon',
+    status: 'Built on Backboard Winner',
     visual: 'commute',
   },
 ]

@@ -260,6 +260,12 @@ img, svg { display: block; max-width: 100%; }
 .project-preview-link { color: var(--text); text-decoration: none; transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease; }
 .project-preview-link .project-preview-media { aspect-ratio: 3 / 2; background: var(--surface); }
 .project-preview-link .project-preview-media img { aspect-ratio: 3 / 2; transition: filter 220ms ease, transform 220ms ease; }
+.project-award-ribbon { position: absolute; z-index: 3; top: 1.7rem; left: -2.65rem; display: grid; width: 11rem; justify-items: center; gap: 0.12rem; padding: 0.42rem 0.55rem; color: #171005; background: linear-gradient(135deg, #ffdb70, #e9aa27); box-shadow: 0 0.55rem 1.25rem rgba(0, 0, 0, 0.28); font-family: "SFMono-Regular", Consolas, monospace; line-height: 1.2; text-align: center; text-transform: uppercase; transform: rotate(-45deg); }
+.project-award-ribbon::before, .project-award-ribbon::after { position: absolute; top: 100%; width: 0.55rem; height: 0.55rem; content: ""; background: inherit; }
+.project-award-ribbon::before { left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.project-award-ribbon::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.project-award-ribbon strong { font-size: 0.68rem; letter-spacing: 0.08em; }
+.project-award-ribbon small { max-width: 9rem; font-size: 0.49rem; font-weight: 700; letter-spacing: 0.045em; }
 .project-preview-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: rgba(5, 8, 12, 0.78); color: #fff; font-size: 0.84rem; font-weight: 750; opacity: 0; transform: translateY(0.35rem); transition: opacity 180ms ease, transform 180ms ease; }
 .project-preview-meta { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid var(--border); background: var(--surface); }
 .project-preview-meta > span:first-child { min-width: 0; }
@@ -296,6 +302,8 @@ img, svg { display: block; max-width: 100%; }
 .project-details dd { margin: 0.4rem 0 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.62; }
 .project-details .project-outcome { border-color: rgba(94, 234, 212, 0.32); }
 .project-outcome dd { color: var(--text); font-weight: 650; }
+.project-case-awarded .project-outcome { border-color: rgba(244, 191, 69, 0.58); }
+.project-case-awarded .project-outcome dd { color: #ffcf58; }
 .engineering-list { display: grid; gap: 0.65rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
 .engineering-list li { position: relative; padding-left: 1.15rem; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; }
 .engineering-list li::before { content: ""; position: absolute; top: 0.62rem; left: 0; width: 0.38rem; height: 0.38rem; border-radius: 999px; background: var(--accent); }
