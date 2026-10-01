@@ -1,32 +1,34 @@
 import Container from '../layout/Container'
 import SectionHeading from '../UI/SectionHeading'
-import TagList from '../UI/TagList'
-import { capabilityGroups, languages } from '../../data/capabilities'
+import { primarySkills, skillGroups } from '../../data/capabilities'
 
 export default function CapabilitiesSection() {
   return (
-    <section className="section-shell capabilities-section" id="skills" aria-labelledby="skills-heading">
+    <section className="section-shell skills-section" id="skills" aria-labelledby="skills-heading">
       <Container>
         <SectionHeading
           id="skills-heading"
-          eyebrow="03 / Capabilities"
-          title="Full-stack, from interface to incident."
-          description="Technologies grouped by the engineering work they support—not by arbitrary proficiency scores."
+          eyebrow="Skills"
+          title="Technologies I work with"
+          description="Highlighted items are my day-to-day production stack."
         />
-        <div className="capability-intro">
-          <p className="mono-label">Core languages</p>
-          <TagList items={languages} label="Programming languages" />
-        </div>
-        <div className="capability-grid">
-          {capabilityGroups.map((group, index) => (
-            <article className="capability-card" key={group.title}>
-              <span className="capability-number">{String(index + 1).padStart(2, '0')}</span>
-              <h3>{group.title}</h3>
-              <p>{group.description}</p>
-              <TagList items={group.technologies} label={`${group.title} technologies`} />
-            </article>
+        <dl className="skill-groups">
+          {skillGroups.map((group) => (
+            <div className="skill-group" key={group.title}>
+              <dt>{group.title}</dt>
+              <dd>
+                <ul className="tag-list" aria-label={`${group.title} technologies`}>
+                  {group.items.map((item) => (
+                    <li key={item} className={primarySkills.has(item) ? 'tag-primary' : undefined}>
+                      {item}
+                      {primarySkills.has(item) && <span className="sr-only"> (primary stack)</span>}
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </Container>
     </section>
   )

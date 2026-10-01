@@ -1,12 +1,12 @@
 import TagList from '../UI/TagList'
 import ArrowIcon from '../UI/ArrowIcon'
 
-export default function ExperienceItem({ item, index }) {
+export default function ExperienceItem({ item }) {
   return (
-    <article className={`experience-item ${item.featured ? 'experience-featured' : ''}`}>
+    <article className="experience-item">
       <div className="experience-meta">
-        <span className="experience-number">{String(index + 1).padStart(2, '0')}</span>
         <p>{item.period}</p>
+        {item.featured && <span className="experience-current">Current</span>}
       </div>
       <div className="experience-content">
         {item.websiteUrl ? (

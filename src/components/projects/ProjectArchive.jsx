@@ -1,28 +1,21 @@
-import ArrowIcon from '../UI/ArrowIcon'
 import TagList from '../UI/TagList'
+import ProjectLinks from './ProjectLinks'
+import ProjectVisual from './ProjectVisual'
 
 export default function ProjectArchive({ projects }) {
   return (
     <div className="archive-block">
-      <div className="archive-heading">
-        <p className="mono-label">Earlier work</p>
-        <h3>Additional builds</h3>
-      </div>
+      <h3 className="archive-heading" id="archive-heading">More projects</h3>
       <div className="archive-grid">
         {projects.map((project) => (
-          <article className="archive-card" key={project.slug}>
-            <h4>{project.title}</h4>
-            <p>{project.summary}</p>
-            <TagList items={project.technologies} label={`${project.title} technologies`} />
-            {project.links?.length > 0 && (
-              <div className="archive-links">
-                {project.links.map((link) => (
-                  <a href={link.href} target="_blank" rel="noreferrer" key={link.label}>
-                    {link.label}<ArrowIcon external />
-                  </a>
-                ))}
-              </div>
-            )}
+          <article className="archive-card" id={project.slug} key={project.slug} aria-labelledby={`${project.slug}-title`}>
+            <ProjectVisual project={project} sizes="(min-width: 1600px) 384px, (min-width: 960px) 320px, (min-width: 640px) 50vw, 100vw" />
+            <div className="archive-body">
+              <h4 id={`${project.slug}-title`}>{project.title}</h4>
+              <p>{project.description}</p>
+              <TagList items={project.technologies} label={`${project.title} technologies`} />
+              <ProjectLinks project={project} />
+            </div>
           </article>
         ))}
       </div>

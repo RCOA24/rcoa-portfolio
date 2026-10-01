@@ -1,6 +1,6 @@
 import Container from '../layout/Container'
 import SectionHeading from '../UI/SectionHeading'
-import ProjectCaseStudy from './ProjectCaseStudy'
+import ProjectCard from './ProjectCard'
 import ProjectArchive from './ProjectArchive'
 import { featuredProjects, projectArchive } from '../../data/projects'
 
@@ -10,12 +10,12 @@ export default function ProjectsSection() {
       <Container>
         <SectionHeading
           id="work-heading"
-          eyebrow="01 / Selected work"
-          title="Products shaped by real constraints."
-          description="A focused selection of healthcare, fitness, and mobility work—shown through the problem, ownership, engineering decisions, and verified outcome."
+          eyebrow="Selected work"
+          title="Projects"
+          description="Healthcare, fitness, and mobility products. Open any case study for the engineering detail."
         />
         <div className="project-list">
-          {featuredProjects.map((project, index) => <ProjectCaseStudy project={project} index={index} key={project.slug} />)}
+          {featuredProjects.map((project, index) => <ProjectCard project={project} index={index} key={project.slug} />)}
         </div>
         <ProjectArchive projects={projectArchive} />
       </Container>

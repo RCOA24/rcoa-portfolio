@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Container from './Container'
+import ThemeToggle from './ThemeToggle'
 import { site } from '../../data/site'
 
 const navigation = [
@@ -10,11 +11,42 @@ const navigation = [
   { label: 'Contact', href: '#contact' },
 ]
 
+// Tracks which primary section sits in the reading zone so the matching nav link can be marked current.
+function useActiveSection(ids) {
+  const [activeId, setActiveId] = useState(null)
+
+  useEffect(() => {
+    if (!('IntersectionObserver' in window)) return undefined
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const { id } = entry.target
+          if (entry.isIntersecting) setActiveId(id)
+          // Clear the marker when its section leaves the reading zone (e.g. back up in the hero).
+          else setActiveId((current) => (current === id ? null : current))
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px' },
+    )
+    ids.forEach((id) => {
+      const section = document.getElementById(id)
+      if (section) observer.observe(section)
+    })
+    return () => observer.disconnect()
+  }, [ids])
+
+  return activeId
+}
+
+const sectionIds = navigation.map((item) => item.href.slice(1))
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const activeId = useActiveSection(sectionIds)
   const menuButtonRef = useRef(null)
   const firstLinkRef = useRef(null)
   const mobileNavRef = useRef(null)
+  const headerActionsRef = useRef(null)
 
   useEffect(() => {
     document.body.classList.toggle('menu-open', isOpen)
@@ -27,7 +59,9 @@ export default function Header() {
       }
 
       if (event.key === 'Tab' && isOpen) {
-        const focusable = [menuButtonRef.current, ...mobileNavRef.current.querySelectorAll('a, button')]
+        // Visible header controls (theme toggle, resume link at tablet widths, menu button) stay reachable.
+        const headerControls = [...headerActionsRef.current.querySelectorAll('a, button')].filter((element) => element.offsetParent !== null)
+        const focusable = [...headerControls, ...mobileNavRef.current.querySelectorAll('a, button')]
         const first = focusable[0]
         const last = focusable.at(-1)
         if (event.shiftKey && document.activeElement === first) {
@@ -66,10 +100,20 @@ export default function Header() {
         </a>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {navigation.map((item) => <a className="nav-link" href={item.href} key={item.href}>{item.label}</a>)}
+          {navigation.map((item) => (
+            <a
+              className="nav-link"
+              href={item.href}
+              key={item.href}
+              aria-current={activeId === item.href.slice(1) ? 'location' : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
-        <div className="header-actions">
+        <div className="header-actions" ref={headerActionsRef}>
+          <ThemeToggle />
           <a className="resume-link" href={site.resumeUrl} target="_blank" rel="noreferrer">Resume ↗</a>
           <button
             ref={menuButtonRef}

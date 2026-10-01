@@ -3,6 +3,7 @@ export const featuredRecognition = {
   organization: 'OpenAI Build Week Manila',
   year: '2026',
   context: 'HealthBridge placed among the Top 5 from 61 teams and 250+ builders.',
+  project: { title: 'HealthBridge', href: '#healthbridge' },
 }
 
 export const achievements = [

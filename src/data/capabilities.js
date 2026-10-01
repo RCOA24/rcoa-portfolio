@@ -1,29 +1,22 @@
-export const capabilityGroups = [
-  {
-    title: 'Enterprise backend',
-    description: 'Production features, incident investigation, reporting, and data-intensive application work.',
-    technologies: ['C#', '.NET Framework', 'REST APIs', 'SQL Server', 'Stored Procedures', 'FastReport'],
-  },
-  {
-    title: 'Modern frontend',
-    description: 'Responsive product interfaces across enterprise systems and modern web applications.',
-    technologies: ['TypeScript', 'JavaScript', 'React', 'Next.js', 'Angular', 'Tailwind CSS'],
-  },
-  {
-    title: 'Data & integration',
-    description: 'Relational and document data, secure service integration, and documented API workflows.',
-    technologies: ['PostgreSQL', 'MySQL', 'MongoDB', 'Supabase', 'REST APIs', 'Swagger / OpenAPI'],
-  },
-  {
-    title: 'AI & product engineering',
-    description: 'AI capabilities integrated into focused user workflows, including healthcare and visual nutrition analysis.',
-    technologies: ['OpenAI API', 'Google Gemini', 'Vision Integrations', 'External API Integration'],
-  },
-  {
-    title: 'Delivery & tooling',
-    description: 'Collaborative delivery from development and review through release validation and production support.',
-    technologies: ['Azure DevOps', 'Git', 'GitHub', 'Docker', 'Postman', 'Google Cloud Platform'],
-  },
+// Each technology appears once. `primary` marks the stack used daily in production work.
+export const skillGroups = [
+  { title: 'Languages', items: ['TypeScript', 'JavaScript', 'C#', 'SQL', 'PHP', 'Java'] },
+  { title: 'Frontend', items: ['React', 'Next.js', 'Angular', 'Tailwind CSS', 'Capacitor'] },
+  { title: 'Backend & APIs', items: ['.NET Framework', 'REST APIs', 'Laravel', 'Swagger / OpenAPI', 'FastReport'] },
+  { title: 'Data', items: ['SQL Server', 'Stored Procedures', 'PostgreSQL', 'Supabase', 'MySQL', 'MongoDB'] },
+  { title: 'AI', items: ['OpenAI API', 'Google Gemini', 'Vision Integrations'] },
+  { title: 'Delivery & tooling', items: ['Azure DevOps', 'Git & GitHub', 'Docker', 'Postman', 'Google Cloud Platform'] },
 ]
 
-export const languages = ['TypeScript', 'JavaScript', 'C#', 'PHP', 'Java', 'SQL']
+export const primarySkills = new Set([
+  'TypeScript',
+  'C#',
+  'SQL',
+  'React',
+  'Next.js',
+  'Angular',
+  '.NET Framework',
+  'REST APIs',
+  'SQL Server',
+  'Azure DevOps',
+])

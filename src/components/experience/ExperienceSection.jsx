@@ -9,12 +9,11 @@ export default function ExperienceSection() {
       <Container>
         <SectionHeading
           id="experience-heading"
-          eyebrow="02 / Experience"
-          title="Engineering in production."
-          description="Enterprise delivery, incident resolution, data investigation, and collaborative product work across healthcare and business systems."
+          eyebrow="Experience"
+          title="Where I’ve worked"
         />
         <div className="experience-list">
-          {experience.map((item, index) => <ExperienceItem item={item} index={index} key={item.company} />)}
+          {experience.map((item) => <ExperienceItem item={item} key={item.company} />)}
         </div>
         <p className="confidentiality-note">
           Enterprise work is presented through sanitized responsibilities and impact. No patient data, protected screenshots, or proprietary implementation details are shown.

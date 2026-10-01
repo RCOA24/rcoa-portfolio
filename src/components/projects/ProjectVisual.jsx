@@ -1,87 +1,37 @@
-import ArrowIcon from '../UI/ArrowIcon'
+import { getPrimaryLink } from './linkUtils'
 
-export default function ProjectVisual({ project }) {
-  if (project.image) {
-    const preview = (
-      <>
-        <span className="project-preview-media">
-          <img
-            src={project.image.src}
-            alt={project.image.alt}
-            width={project.image.width}
-            height={project.image.height}
-            loading="lazy"
-            decoding="async"
-          />
-          {project.recognition && (
-            <span className={`project-award-ribbon project-award-ribbon-${project.recognition.tone}`} aria-hidden="true">
-              <strong>{project.recognition.label}</strong>
-              <small>{project.recognition.detail}</small>
-            </span>
-          )}
-          {project.links.devpost && (
-            <span className="project-preview-overlay" aria-hidden="true">
-              View submission <ArrowIcon external />
-            </span>
-          )}
-        </span>
-        {project.submission && (
-          <span className="project-preview-meta">
-            <span>
-              <small>{project.submission.context}</small>
-              <strong>{project.submission.event}</strong>
-            </span>
-            <span className="project-preview-action" aria-hidden="true">
-              {project.submission.platform} <ArrowIcon external />
-            </span>
-          </span>
-        )}
-      </>
-    )
+/**
+ * Fixed 16:10 project media. Links to the project's primary destination when one exists.
+ * `sizes` describes the rendered width so the browser can pick the right srcSet candidate.
+ */
+export default function ProjectVisual({ project, sizes }) {
+  const { image } = project
+  const primary = getPrimaryLink(project.links)
 
-    if (project.links.devpost) {
-      return (
-        <a
-          className="project-image-frame project-preview-link"
-          href={project.links.devpost}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`View ${project.shortTitle} submission on Devpost${project.recognition ? `. ${project.recognition.label}: ${project.recognition.detail}.` : ''}`}
-        >
-          {preview}
-        </a>
-      )
-    }
+  const media = (
+    <img
+      src={image.src}
+      srcSet={image.srcSet}
+      sizes={image.srcSet ? sizes : undefined}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
+      loading="lazy"
+      decoding="async"
+    />
+  )
 
-    return (
-      <div className="project-image-frame">
-        {preview}
-      </div>
-    )
-  }
-
-  if (project.visual === 'healthbridge') {
-    return (
-      <div className="project-abstract project-abstract-health" role="img" aria-label="HealthBridge product scope: consultation, pharmacy, laboratory, and discharge preparation connected to more than five services">
-        <div className="abstract-header"><span>HealthBridge</span><span>5+ services</span></div>
-        <div className="care-grid" aria-hidden="true">
-          {['Consultation', 'Pharmacy', 'Laboratory', 'Discharge'].map((item, index) => (
-            <div className="care-step" key={item}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong></div>
-          ))}
-        </div>
-        <div className="abstract-status" aria-hidden="true"><span /> Offline support <span /> Secure authentication</div>
-      </div>
-    )
-  }
+  if (!primary) return <div className="project-media">{media}</div>
 
   return (
-    <div className="project-abstract project-abstract-commute" role="img" aria-label="Commute Lens compares financial cost, time cost, and route reliability">
-      <div className="abstract-header"><span>Commute Lens</span><span>Decision view</span></div>
-      <div className="commute-lenses" aria-hidden="true">
-        <div><span>01</span><strong>Financial cost</strong><small>Fare and spend</small></div>
-        <div><span>02</span><strong>Time cost</strong><small>Travel burden</small></div>
-        <div><span>03</span><strong>Reliability</strong><small>Route context</small></div>
-      </div>
-    </div>
+    <a
+      className="project-media project-media-link"
+      href={primary.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${project.title}: ${primary.label} (opens in a new tab)`}
+    >
+      {media}
+    </a>
   )
 }
